@@ -1,5 +1,5 @@
 import type { ComponentProps } from "react";
-import { ChevronDown } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 
 type NativeSelectProps = ComponentProps<"select"> & { wrapperClassName?: string };
@@ -20,7 +20,7 @@ function NativeSelect({ className, wrapperClassName, multiple, size, ...props }:
         )}
         {...props}
       />
-      {!listbox && <ChevronDown data-slot="native-select-icon" aria-hidden="true" className="pointer-events-none absolute top-1/2 right-2.5 size-4 -translate-y-1/2 text-muted-foreground" />}
+      {!listbox && <Icon name="chevron-down" size={16} slot="native-select-icon" />}
     </div>
   );
 }

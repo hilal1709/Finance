@@ -24,13 +24,13 @@ Workspace operasional untuk Accounting: Team Task & Workload, Asset 360, Cost An
 
 ## Proyek
 
-- UI direction: Accounting Operations Ledger; palet D, Graphite & Aubergine. Navigasi `#292730`, aksi utama `#705080`, aksen grafik `#347C88`, latar `#F7F5F8`, dan permukaan putih. Referensi: 21st.dev dan horizonx.so.
+- Ledger Editorial memakai Gunmetal #393e41, Dust Grey #d3d0cb, Alabaster Grey #e7e5df, Ocean Mist #44bba4, dan Tuscan Sun #e7bb41. Token, pola komponen, dan referensi 21st.dev serta HorizonX tercatat di [DESIGN.md](./DESIGN.md).
 - Semua enam modul workspace dan login memakai fondasi shadcn/ui `base-nova` (Base UI) di `src/components/ui/`: Button, Input, Label, NativeSelect, Card, Badge, Table, Avatar, Progress, Alert, Skeleton, Collapsible, Tabs, Dialog, dan Sheet. Komponen tetap mengikuti token workspace; tabel mempertahankan struktur HTML semantik dan scroll lokal.
 - Aceternity diterapkan sebagai adaptasi lokal di seluruh pengalaman: Card Hover Effect pada permukaan Card, Sidebar dengan highlight navigasi dan gerak label, Carousel pengumuman manual, File Upload dengan tile shared-layout, Tabs MoM/YoY/YTD, dan Stateful Button untuk penyimpanan pekerjaan serta login. Sumber resmi dicantumkan di komponen; animasi menghormati reduced motion. Navigasi mobile memakai shadcn Sheet untuk fokus dan Escape.
 - File Upload mendukung pilihan keyboard dan drag/drop satu file CSV/XLSX/XLS maksimal 20 MB, pesan penolakan, penghapusan pilihan, dan mempertahankan berkas ketika pratinjau gagal. Stateful Button mengikuti status request/form yang sebenarnya, tanpa menampilkan tanda berhasil sebelum server mengonfirmasi.
 - Registry `@aceternity` sudah dikonfigurasi di `components.json`; komponen tambahan dapat dipasang melalui `npx shadcn add @aceternity/<nama-komponen>`. Jangan menimpa adaptasi lokal tanpa meninjau aksesibilitas dan token desain.
-- Motion interaksi dikelola oleh React melalui `motion/react` dan pola Aceternity, bukan beberapa runtime DOM yang bersaing. GSAP, anime.js, AOS, dan Swiper tidak lagi dipakai pada UI workspace. Ilustrasi Lottie dan Lordicon tetap dipertahankan.
-- Sumber ikon: Lordicon `298-coins-outline`, https://cdn.lordicon.com/qhviklyi.json, disimpan lokal di `public/lordicon-coins.json`; atribusi tersedia di footer.
+- GSAP menggambar garis pada pergantian modul dan menggerakkan indikator loading. Anime.js memberi umpan balik pada kontrol dan toast, AOS memperkenalkan panel pendukung, dan Swiper menjalankan carousel manual. Lima ilustrasi Lottie lokal menjelaskan alur kerja.
+- Ikon antarmuka memakai SVG Potlab yang disimpan lokal dan mengikuti warna tema, hover, fokus keyboard, serta reduced motion. [Potlab Icons oleh Suresh](https://www.potlabicons.com/)
 - Pencarian mendukung Ctrl/Cmd+K. Tugas menjadi daftar ringkas pada layar kecil; drawer navigasi mendukung Escape, focus trap, dan penguncian scroll.
 - Detail aset dan filter bekerja pada data contoh. Membuat tugas atau commit impor tetap memerlukan sesi pengguna; pratinjau tidak menyimulasikan keberhasilan penyimpanan.
 - Skema dan migration berada di `prisma/`; generated Prisma Client berada di `src/generated/prisma/`.
@@ -40,7 +40,7 @@ Workspace operasional untuk Accounting: Team Task & Workload, Asset 360, Cost An
 ## Validasi UI
 
 - `npm run build` memeriksa build produksi dan TypeScript.
-- `npm run test:e2e -- --workers 2` menjalankan 24 skenario Playwright desktop/mobile terhadap build produksi: palet D, pencarian, filter, detail aset, tab keyboard, modal/error toast, login, carousel, ilustrasi, adopsi komponen bersama di semua modul, progress ARIA, unggah/drag-drop/penolakan file, disclosure data grafik, serta responsivitas setiap modul pada 320–1440 px.
+- `npm run test:e2e -- --workers 2` menjalankan skenario Playwright desktop dan mobile terhadap build produksi. Cakupannya meliputi palet, pencarian, filter, fokus keyboard, modal, toast, login, carousel, ilustrasi, impor, disclosure data grafik, dan responsivitas modul pada 320–1440 px.
 - Pengujian memakai Google Chrome yang terpasang (`channel: chrome`) dan menjalankan server sementara di port 3100. Jalankan `npm run build` sebelum pengujian. Request penyimpanan dalam pengujian error di-mock; tes tidak menulis ke database.
 
 Semua angka contoh ditandai sebagai ilustrasi dan tidak berasal dari data perusahaan.

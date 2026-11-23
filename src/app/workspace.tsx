@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { ScrollMotion } from "@/components/motion-runtime";
+import { StudioHeading, StudioPage } from "@/components/studio-page";
 import { Sidebar, SidebarLink } from "@/components/ui/sidebar";
 import { FileUpload } from "@/components/ui/file-upload";
 import { StatefulButton } from "@/components/ui/stateful-button";
@@ -15,38 +15,31 @@ import { Label } from "@/components/ui/label";
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
-import { NoticeCarousel } from "@/components/notice-carousel";
+import { NoticeCarousel, StudioCarousel } from "@/components/notice-carousel";
 import { WorkspaceToast, type ToastKind } from "@/components/workspace-toast";
 import { WorkspaceBanner } from "@/components/workspace-banner";
-import { Skeleton } from "@/components/ui/skeleton";
+import { CostAnalytics } from "@/components/cost-analytics";
 import { BrandMark } from "@/components/brand-mark";
 import type { Comparison, CostPeriod } from "@/lib/cost-demo";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Button as ShadcnButton } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 
 
-import { ArrowRight, Bell, BriefcaseBusiness, Building2, FileSpreadsheet, Filter, LayoutDashboard, Menu, MoreHorizontal, Plus, Search, Settings2, TrendingUp, Upload, Users, X } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 
 type Area = "overview" | "tasks" | "assets" | "analytics" | "imports" | "team";
 type ToastState = { id: number; kind: ToastKind; message: string };
 
-const CostAnalytics = dynamic(() => import("@/components/cost-analytics").then((module) => module.CostAnalytics), {
-  loading: () => (
-    <section className="analytics-loading" role="status">
-      <span>Memuat analisis biaya…</span>
-      <Skeleton className="analytics-loading-chart" />
-    </section>
-  ),
-});
 const AccountingIllustration = dynamic(() => import("@/components/accounting-illustration").then((module) => module.AccountingIllustration));
 const nav = [
-  { id: "overview", label: "Command center", icon: LayoutDashboard },
-  { id: "tasks", label: "Tugas & workload", icon: BriefcaseBusiness },
-  { id: "assets", label: "Asset 360", icon: Building2 },
-  { id: "analytics", label: "Cost analytics", icon: TrendingUp },
-  { id: "imports", label: "Impor data", icon: FileSpreadsheet },
-  { id: "team", label: "Tim & akses", icon: Users },
+  { id: "overview", label: "Command center", shortLabel: "Beranda", icon: "chart" },
+  { id: "tasks", label: "Tugas & workload", shortLabel: "Tugas", icon: "tasks" },
+  { id: "assets", label: "Asset 360", shortLabel: "Aset", icon: "asset" },
+  { id: "analytics", label: "Cost analytics", shortLabel: "Biaya", icon: "analytics" },
+  { id: "imports", label: "Impor data", shortLabel: "Impor", icon: "file" },
+  { id: "team", label: "Tim & akses", shortLabel: "Tim", icon: "people" },
 ] as const;
 const tasks = [
   { name: "Rekonsiliasi akun beban dibayar dimuka", code: "FA-2026-084", section: "Financial Accounting", person: "Nadia Putri", initials: "NP", due: "Hari ini, 16:00", status: "In Progress", tone: "progress" },
@@ -69,9 +62,21 @@ const assetStatusLabels = {
 };
 
 
-function Brand({ compact = false }: { compact?: boolean }) {
-  return <div className="brand-lockup"><div className="brand-mark"><BrandMark className="brand-symbol" /></div><div><div className="brand-title">accounting<span className="brand-accent">.</span></div>{!compact && <div className="brand-subtitle">DIGITAL OPERATIONS</div>}</div></div>;
+const capacity = [
+  { name: "Nadia Putri", used: 35, role: "PIC · Financial Accounting", initials: "NP" },
+  { name: "Rizky Ananda", used: 31, role: "PIC · Asset & Reconciliation", initials: "RA" },
+  { name: "Dimas Prakoso", used: 25, role: "PIC · Cost Accounting", initials: "DP" },
+  { name: "Sari Wulandari", used: 20, role: "Manager · Internal Reporting", initials: "SW" },
+];
+const weeklyCapacity = 40;
+const utilization = Math.round(capacity.reduce((total, person) => total + person.used, 0) / (capacity.length * weeklyCapacity) * 100);
+
+const importSteps = ["Unggah berkas", "Petakan kolom", "Tinjau pratinjau", "Konfirmasi impor"];
+
+function Brand() {
+  return <div className="brand-lockup"><div className="brand-mark"><BrandMark className="brand-symbol" /></div><span className="brand-title">Digital Accounting</span></div>;
 }
+
 function Button({ children, onClick, variant = "primary", className = "", type = "button", disabled = false }: { children: React.ReactNode; onClick?: (event: MouseEvent<HTMLButtonElement>) => void; variant?: "primary" | "secondary" | "quiet"; className?: string; type?: "button" | "submit"; disabled?: boolean }) {
   const uiVariant = variant === "secondary" ? "outline" : variant === "quiet" ? "ghost" : "default";
   return <ShadcnButton type={type} onClick={onClick} disabled={disabled} variant={uiVariant} className={`action-button ${variant} ${className}`}>{children}</ShadcnButton>;
@@ -109,6 +114,7 @@ export default function Home() {
   const [importType, setImportType] = useState("FINANCIAL_LINES");
   const [columnMapping, setColumnMapping] = useState<Record<string, string>>({});
   const [commitBusy, setCommitBusy] = useState(false);
+  const [importError, setImportError] = useState<string | null>(null);
   const [uploadBusy, setUploadBusy] = useState(false);
   const [taskName, setTaskName] = useState("");
   const [newTasks, setNewTasks] = useState<typeof tasks[number][]>([]);
@@ -135,6 +141,7 @@ export default function Home() {
     setActive(area);
     setQuery("");
     setMobileOpen(false);
+    window.scrollTo({ top: 0, behavior: "instant" });
   }
 
   useEffect(() => {
@@ -162,6 +169,7 @@ export default function Home() {
   async function previewImport() {
     if (!file || uploadBusy || commitBusy) return;
     setUploadBusy(true);
+    setImportError(null);
     const body = new FormData(); body.set("file", file); body.set("type", importType);
     try {
       const response = await fetch("/api/imports/preview", { method: "POST", body });
@@ -169,12 +177,17 @@ export default function Home() {
       if (!response.ok) throw new Error(data.error || "File tidak dapat dibaca.");
       setPreview(data);
       setColumnMapping(data.suggestedMapping ?? {});
-    } catch (error) { showToast(error instanceof Error ? error.message : "Pratinjau gagal dimuat.", "error"); }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Pratinjau gagal dimuat.";
+      setImportError(message);
+      showToast(message, "error");
+    }
     finally { setUploadBusy(false); }
   }
   async function commitImport() {
     if (!file || !preview || commitBusy || uploadBusy) return;
     setCommitBusy(true);
+    setImportError(null);
     const body = new FormData(); body.set("file", file); body.set("type", importType); body.set("mapping", JSON.stringify(columnMapping));
     try {
       const response = await fetch("/api/imports/commit", { method: "POST", body });
@@ -182,7 +195,11 @@ export default function Home() {
       if (!response.ok) throw new Error(data.error || "Impor tidak dapat disimpan.");
       showToast(`Impor berhasil diproses · ${data.validCount ?? preview.validCount} baris valid.`, "success");
       setPreview(null); setFile(null);
-    } catch (error) { showToast(error instanceof Error ? error.message : "Commit impor gagal.", "error"); }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Commit impor gagal.";
+      setImportError(message);
+      showToast(message, "error");
+    }
     finally { setCommitBusy(false); }
   }
   async function submitTask(event: React.FormEvent<HTMLFormElement>) {
@@ -201,32 +218,237 @@ export default function Home() {
     finally { setTaskBusy(false); }
   }
 
-  return <div className="app-shell"><a href="#workspace-content" className="skip-link">Langsung ke konten</a>
+  function showAsset(event: MouseEvent<HTMLButtonElement>, asset: typeof assetRows[number]) {
+    assetTrigger.current = event.currentTarget;
+    setSelectedAsset(asset);
+  }
+
+  function jumpToAssetFilter(status: keyof typeof assetStatusLabels) {
+    setAssetFilter(status);
+    document.getElementById("asset-filter")?.focus();
+  }
+
+  const importReady = preview?.requiredFields.every((field) => Boolean(columnMapping[field]));
+  const importStage = commitBusy ? 3 : preview ? (importReady ? 2 : 1) : 0;
+
+  return <div className="app-shell studio-shell">
+    <a href="#workspace-content" className="skip-link">Langsung ke konten</a>
     <Sidebar open={mobileOpen} onOpenChange={setMobileOpen} triggerRef={menuButton}>
       <Brand />
-      <div className="workspace-switch"><Avatar className="workspace-avatar"><AvatarFallback>DA</AvatarFallback></Avatar><span className="workspace-copy"><strong>Departemen Accounting</strong><small>Workspace internal</small></span></div>
       <nav className="nav-scroll" aria-label="Navigasi utama">
-        <div className="nav-group-label">WORKSPACE</div>
-        {nav.slice(0, 4).map((item) => { const Icon = item.icon; return <SidebarLink key={item.id} icon={<Icon />} label={item.label} active={active === item.id} onClick={() => navigate(item.id)} />; })}
-        <div className="nav-group-label nav-spaced">DATA & ACCESS</div>
-        {nav.slice(4).map(({ id, label, icon: Icon }) => <SidebarLink key={id} icon={<Icon />} label={label} active={active === id} onClick={() => navigate(id)} />)}
+        {nav.map(({ id, label, shortLabel, icon }) => (
+          <SidebarLink key={id} icon={<Icon name={icon} size={19} />} label={label} shortLabel={shortLabel} active={active === id} onClick={() => navigate(id)} />
+        ))}
       </nav>
-      <div className="sidebar-bottom"><Link className="drawer-login" href="/login">Masuk ke workspace</Link><div className="sidebar-user"><Avatar className="avatar"><AvatarFallback>AP</AvatarFallback></Avatar><span className="sidebar-user-meta"><span className="sidebar-user-name">Accounting Preview</span><span className="sidebar-user-role">Manager · Demo</span></span><ShadcnButton variant="ghost" size="unset" className="sidebar-signout" aria-label="Buka tim dan akses" onClick={() => navigate("team")}><Settings2 size={16} /></ShadcnButton></div></div>
+      <div className="sidebar-bottom">
+        <Link className="drawer-login" href="/login">Masuk ke workspace</Link>
+        <div className="sidebar-user">
+          <Avatar className="avatar"><AvatarFallback>AP</AvatarFallback></Avatar>
+          <div className="sidebar-user-meta"><span className="sidebar-user-name">Accounting Preview</span><span className="sidebar-user-role">Manager · Demo</span></div>
+          <ShadcnButton variant="ghost" size="unset" className="sidebar-signout" aria-label="Buka tim dan akses" onClick={() => navigate("team")}><Icon name="settings" size={16} /></ShadcnButton>
+        </div>
+      </div>
     </Sidebar>
     <main className="main-frame">
-      <header className="topbar"><div className="topbar-left"><ShadcnButton ref={menuButton} variant="ghost" size="unset" aria-label="Buka navigasi" aria-controls="workspace-navigation" aria-expanded={mobileOpen} className="mobile-menu-button" onClick={() => setMobileOpen(true)}><Menu size={18} /></ShadcnButton><div className="topbar-context">Workspace <span>/</span> <strong>{title}</strong></div></div><div className="topbar-right"><Label className="global-search"><Search size={15} /><Input className="workspace-search-input" ref={searchInput} aria-label={active === "assets" ? "Cari aset" : "Cari pekerjaan"} placeholder={active === "assets" ? "Cari aset" : "Cari pekerjaan"} value={query} onChange={(e) => { setQuery(e.target.value); if (active !== "assets" && active !== "tasks" && active !== "overview") setActive("tasks"); }} /><kbd>Ctrl K</kbd></Label><Badge variant="outline" className="simulation-badge"><i className="simulation-dot" /> DATA SIMULASI</Badge><ShadcnButton variant="ghost" size="unset" className="icon-button notification" aria-label="Notifikasi" onClick={() => showToast("Belum ada notifikasi baru.")}><Bell size={17} /></ShadcnButton><Link href="/login" className="topbar-avatar" aria-label="Masuk ke workspace">AP</Link></div></header>
+      <header className="topbar">
+        <div className="topbar-left">
+          <ShadcnButton ref={menuButton} variant="ghost" size="unset" aria-label="Buka navigasi" aria-controls="workspace-navigation" aria-expanded={mobileOpen} className="mobile-menu-button" onClick={() => setMobileOpen(true)}><Icon name="menu" size={18} /></ShadcnButton>
+          <span className="studio-mobile-brand">Accounting</span>
+          <div className="topbar-context"><strong>Digital Accounting</strong><span>/</span>{title}</div>
+        </div>
+        <div className="topbar-right">
+          <Label className="global-search">
+            <Icon name="search" size={15} />
+            <Input className="workspace-search-input" ref={searchInput} aria-label={active === "assets" ? "Cari aset" : "Cari pekerjaan"} placeholder={active === "assets" ? "Cari aset" : "Cari pekerjaan"} value={query} onChange={(event) => {
+              setQuery(event.target.value);
+              if (active !== "assets" && active !== "tasks" && active !== "overview") setActive("tasks");
+            }} />
+            <kbd>Ctrl K</kbd>
+          </Label>
+          <Badge variant="outline" className="simulation-badge"><i className="simulation-dot" /> DATA SIMULASI</Badge>
+          <ShadcnButton variant="ghost" size="unset" className="icon-button notification" aria-label="Notifikasi" onClick={() => showToast("Belum ada notifikasi baru.")}><Icon name="bell" size={17} /></ShadcnButton>
+          <Link href="/login" className="topbar-avatar" aria-label="Masuk ke workspace">AP</Link>
+        </div>
+      </header>
       <div id="workspace-content" className="page-content" tabIndex={-1}>
-         {active === "overview" && <Overview setActive={navigate} openModal={openTask} banner={overviewBanner} onDismissBanner={() => setOverviewBanner(false)} rows={filteredTasks} />}
-        {active === "tasks" && <section className="page-section"><div className="page-heading"><div><h1>Pekerjaan tim</h1><p>Pantau prioritas, status, tenggat, dan kapasitas setiap PIC.</p></div><Button onClick={openTask}><Plus size={16} /> Buat pekerjaan</Button></div><div className="stats-strip compact-stats"><Metric label="Pekerjaan aktif" value="28" note="dari 34 pekerjaan" /><Metric label="Mendekati tenggat" value="6" note="dalam 3 hari" positive={false} /><Metric label="Menunggu review" value="4" note="perlu tindak lanjut" positive={false} /><Metric label="Kapasitas tim" value="76%" note="rata-rata terpakai" /></div><Card className="surface surface-pad"><div className="filter-row"><Label className="toolbar-search"><Search size={15} /><Input className="workspace-search-input" aria-label="Cari pekerjaan atau PIC" placeholder="Cari pekerjaan atau PIC" value={query} onChange={(e) => setQuery(e.target.value)} /></Label><NativeSelect className="field-control filter-select" aria-label="Filter status" value={taskFilter} onChange={(e) => setTaskFilter(e.target.value)}>{["Semua status", "New", "Assigned", "In Progress", "Waiting / Blocked", "In Review", "Completed"].map((s) => <NativeSelectOption key={s}>{s}</NativeSelectOption>)}</NativeSelect><span className="result-count">{filteredTasks.length} pekerjaan</span></div><TaskTable rows={filteredTasks} /></Card><Card as="section" className="surface surface-pad workload-summary" aria-label="Kapasitas mingguan"><div className="section-title"><div><h2>Kapasitas mingguan</h2><p>Estimasi effort dibanding kapasitas 40 jam per PIC · simulasi</p></div></div><Capacity /></Card></section>}
-        {active === "assets" && <section className="page-section"><div className="page-heading"><div><h1>Mapping aset & equipment</h1><p>Satu aset SAP dapat terhubung ke beberapa equipment, dengan riwayat mapping dan tanggal efektif.</p></div><Button onClick={() => navigate("imports")}><Upload size={16} /> Impor master aset</Button></div>{assetBanner && <WorkspaceBanner tone="warning" title="Master SAP tetap sumber utama" onDismiss={() => setAssetBanner(false)}>Mapping di sini mencatat periode efektif dan riwayat audit tanpa mengubah master SAP.</WorkspaceBanner>}<div className="stats-strip compact-stats"><Metric label="Aset terdaftar" value="1.284" note="dari snapshot SAP" /><Metric label="Mapping lengkap" value="96,4%" note="1.238 aset terpetakan" /><Metric label="Belum dipetakan" value="31" note="perlu identifikasi" positive={false} /><Metric label="Pengecualian" value="15" note="lokasi, owner, status" positive={false} /></div><Card className="surface surface-pad"><div className="filter-row"><Label className="toolbar-search"><Search size={15} /><Input className="workspace-search-input" aria-label="Cari ID aset, equipment, lokasi" placeholder="Cari ID aset, equipment, lokasi..." value={query} onChange={(e) => setQuery(e.target.value)} /></Label><NativeSelect className="field-control filter-select" aria-label="Filter pemetaan" value={assetFilter} onChange={(e) => setAssetFilter(e.target.value)}>{["Semua pemetaan", "Mapped", "Unmapped", "Review"].map((x) => <NativeSelectOption key={x}>{x}</NativeSelectOption>)}</NativeSelect><ShadcnButton variant="outline" size="unset" className="action-button secondary" aria-pressed={assetFilter === "Review"} onClick={() => setAssetFilter(assetFilter === "Review" ? "Semua pemetaan" : "Review")}><Filter size={15} /> Pengecualian</ShadcnButton></div><div className="table-wrap"><Table className="data-table"><TableHeader><TableRow><TableHead>ID ASET</TableHead><TableHead>NAMA ASET</TableHead><TableHead>EQUIPMENT SAP</TableHead><TableHead>LOKASI</TableHead><TableHead>PEMILIK</TableHead><TableHead>STATUS</TableHead><TableHead /></TableRow></TableHeader><TableBody>{filteredAssets.map((row) => <TableRow key={row.id}><TableCell className="mono">{row.id}</TableCell><TableCell><strong className="table-strong">{row.name}</strong></TableCell><TableCell className="mono">{row.equipment}</TableCell><TableCell>{row.location}</TableCell><TableCell>{row.owner}</TableCell><TableCell><Status tone={row.status === "Mapped" ? "complete" : row.status === "Review" ? "review" : "blocked"}>{assetStatusLabels[row.status]}</Status></TableCell><TableCell><ShadcnButton variant="ghost" size="unset" className="row-more" aria-label={`Lihat detail ${row.id}`} onClick={(event) => {
-  assetTrigger.current = event.currentTarget;
-  setSelectedAsset(row);
-}}><MoreHorizontal size={17} /></ShadcnButton></TableCell></TableRow>)}{filteredAssets.length === 0 && <TableRow><TableCell colSpan={7} className="empty-table">Tidak ada aset sesuai pencarian atau filter.</TableCell></TableRow>}</TableBody></Table></div><div className="provenance-ribbon"><span>Setiap perubahan mapping menyimpan pengguna, timestamp, dan periode efektif.</span><span className="ribbon-tag">AUDIT TRAIL</span></div></Card></section>}
-         {active === "analytics" && <CostAnalytics period={period} setPeriod={setPeriod} comparison={comparison} setComparison={setComparison} showToast={showToast} />}
-        {active === "imports" && <section className="page-section"><div className="page-heading"><div><h1>Impor data SAP</h1><p>Pratinjau, cocokkan kolom, validasi, lalu konfirmasi sebelum data masuk ke workspace.</p></div><Badge variant="outline" className="simulation-badge"><i className="simulation-dot" /> IMPORT TERKENDALI</Badge></div><WorkspaceBanner title="Tinjau sebelum menyimpan">Periksa hasil validasi dan pemetaan kolom sebelum mengonfirmasi impor.</WorkspaceBanner><div className="import-layout"><Card className="surface surface-pad"><h2 className="panel-heading">Unggah berkas</h2><p className="panel-description">Pilih snapshot SAP untuk analisis biaya, mapping aset, atau daftar equipment.</p><Label className="field-label" htmlFor="import-type">Jenis data</Label><NativeSelect id="import-type" className="field-control import-type" disabled={uploadBusy || commitBusy} value={importType} onChange={(e) => { setImportType(e.target.value); setPreview(null); }}><NativeSelectOption value="FINANCIAL_LINES">Cost Analytics · GL / CO / MM</NativeSelectOption><NativeSelectOption value="ASSETS">Asset 360 · SAP Asset</NativeSelectOption><NativeSelectOption value="EQUIPMENT">Asset 360 · Equipment</NativeSelectOption></NativeSelect><FileUpload file={file} disabled={uploadBusy || commitBusy} onChange={(next) => { setFile(next); setPreview(null); }} /><StatefulButton className="action-button primary full-button" onClick={previewImport} loading={uploadBusy} pendingLabel="Membaca berkas…" disabled={!file || commitBusy}>Tampilkan pratinjau</StatefulButton></Card><Card className="surface surface-pad import-side"><div className="import-art"><AccountingIllustration /></div><h3>Alur impor</h3><p>Setiap impor menyimpan informasi sumber, periode laporan, status validasi, dan waktu pemuatan.</p><div className="pipeline-step"><span>01</span><div><strong>Upload & pratinjau</strong><small>Periksa sampel baris dan format</small></div></div><div className="pipeline-step"><span>02</span><div><strong>Mapping kolom</strong><small>Hubungkan header dengan field</small></div></div><div className="pipeline-step"><span>03</span><div><strong>Review & simpan</strong><small>Konfirmasi sebelum commit</small></div></div></Card></div>{preview && <Card className="surface surface-pad preview-panel"><div className="section-title"><div><h2>Pratinjau berkas</h2><p>{preview.rowCount} baris ditemukan · {preview.validCount} lolos validasi · {preview.missing.length ? "kolom wajib belum terdeteksi" : "pratinjau hingga 5 baris"}</p></div><StatefulButton className="action-button primary" onClick={commitImport} loading={commitBusy} pendingLabel="Menyimpan impor…" disabled={uploadBusy || preview.requiredFields.some((field) => !columnMapping[field])}>Konfirmasi impor</StatefulButton></div><div className="mapping-grid import-mapping">{preview.requiredFields.map((field) => <div className="mapping-row" key={field}><Label className="mapping-field" htmlFor={`mapping-${field}`}>{field}<span className="mapping-required">Wajib</span></Label><NativeSelect id={`mapping-${field}`} className="field-control" value={columnMapping[field] ?? ""} disabled={commitBusy || uploadBusy} onChange={(e) => setColumnMapping((current) => ({ ...current, [field]: e.target.value }))}><NativeSelectOption value="">Pilih kolom sumber</NativeSelectOption>{preview.headers.map((header) => <NativeSelectOption key={header} value={header}>{header}</NativeSelectOption>)}</NativeSelect></div>)}</div><div className="table-wrap"><Table className="data-table"><TableHeader><TableRow>{preview.headers.map((header) => <TableHead key={header}>{header}</TableHead>)}</TableRow></TableHeader><TableBody>{preview.preview.slice(0, 5).map((row, index) => <TableRow key={index}>{preview.headers.map((h) => <TableCell key={h}>{String(row[h] ?? "—")}</TableCell>)}</TableRow>)}</TableBody></Table></div></Card>}</section>}
-        {active === "team" && <section className="page-section"><div className="page-heading"><div><h1>Tim Accounting</h1><p>Struktur section, kapasitas mingguan, dan akses berdasarkan peran.</p></div><Button onClick={() => showToast("Pembuatan akun tersedia setelah Admin masuk.")}><Plus size={16} /> Undang anggota</Button></div><WorkspaceBanner title="Akses berbasis peran">Admin mengelola akun dan impor. Manager mengatur penugasan. PIC mencatat dan menyelesaikan tugasnya.</WorkspaceBanner><div className="overview-grid"><Card className="surface surface-pad"><div className="section-title"><div><h2>Anggota tim</h2><p>Contoh struktur untuk workspace</p></div><Badge variant="outline" className="simulation-badge">SIMULASI</Badge></div><div className="team-list">{[{ name: "Nadia Putri", role: "PIC · Financial Accounting", initials: "NP", load: 88 }, { name: "Rizky Ananda", role: "PIC · Asset & Reconciliation", initials: "RA", load: 72 }, { name: "Dimas Prakoso", role: "PIC · Cost Accounting", initials: "DP", load: 64 }, { name: "Sari Wulandari", role: "Manager · Internal Reporting", initials: "SW", load: 51 }].map((p) => <div className="team-row" key={p.name}><Avatar className="person-mini large"><AvatarFallback>{p.initials}</AvatarFallback></Avatar><div className="team-member"><strong>{p.name}</strong><small>{p.role}</small></div><span className={`load-label ${p.load > 85 ? "load-high" : ""}`}>{p.load}%</span><Progress value={p.load} aria-label={`Kapasitas ${p.name}`} className="progress-track team-progress" indicatorClassName={`progress-value ${p.load > 85 ? "high" : ""}`} /></div>)}</div></Card><Card className="surface surface-pad"><div className="section-title"><div><h2>Komposisi kapasitas</h2><p>Baseline 40 jam per minggu</p></div></div><Capacity /></Card></div></section>}
+        {active === "overview" && <Overview setActive={navigate} openModal={openTask} banner={overviewBanner} onDismissBanner={() => setOverviewBanner(false)} rows={filteredTasks} />}
+        {active === "tasks" && (
+          <StudioPage className="studio-tasks">
+            <StudioHeading title="Pekerjaan tim" description="Pantau pekerjaan, tenggat, dan kapasitas setiap PIC.">
+              <Button onClick={openTask}><Icon name="add" size={16} /> Buat pekerjaan</Button>
+            </StudioHeading>
+            <div className="studio-split studio-task-layout">
+              <Card as="section" className="surface studio-directory">
+                <div className="studio-panel-heading">
+                  <div><h2>Daftar pekerjaan</h2><p>Simulasi · 6 mendekati tenggat · 4 menunggu review</p></div>
+                  <span key={filteredTasks.length} className="result-count">{filteredTasks.length} pekerjaan</span>
+                </div>
+                <div className="filter-row studio-toolbar">
+                  <Label className="toolbar-search">
+                    <Icon name="search" size={15} />
+                    <Input className="workspace-search-input" aria-label="Cari pekerjaan atau PIC" placeholder="Cari pekerjaan atau PIC" value={query} onChange={(event) => setQuery(event.target.value)} />
+                  </Label>
+                  <NativeSelect className="field-control filter-select" aria-label="Filter status" value={taskFilter} onChange={(event) => setTaskFilter(event.target.value)}>
+                    {["Semua status", "New", "Assigned", "In Progress", "Waiting / Blocked", "In Review", "Completed"].map((status) => <NativeSelectOption key={status}>{status}</NativeSelectOption>)}
+                  </NativeSelect>
+                </div>
+                <TaskTable rows={filteredTasks} filtered={Boolean(query.trim()) || taskFilter !== "Semua status"} />
+              </Card>
+              <aside className="studio-context">
+                <Card as="section" className="surface surface-pad capacity-panel" aria-label="Kapasitas mingguan">
+                  <div className="section-title"><div><h2>Kapasitas mingguan</h2><p>40 jam per PIC · simulasi</p></div></div>
+                  <Capacity />
+                </Card>
+                <div data-aos="studio-reveal">
+                  <StudioCarousel title="Beban per PIC" slides={capacity.map((person) => ({
+                    title: person.name,
+                    description: `${person.used} dari ${weeklyCapacity} jam terpakai · ${person.role}.`,
+                  }))} />
+                </div>
+              </aside>
+            </div>
+          </StudioPage>
+        )}
+        {active === "assets" && (
+          <StudioPage className="studio-assets">
+            <StudioHeading title="Mapping aset & equipment" description="Telusuri hubungan aset SAP dengan equipment, lokasi, dan pemilik.">
+              <Button onClick={() => navigate("imports")}><Icon name="upload" size={20} /> Impor master aset</Button>
+            </StudioHeading>
+            <Card as="section" className="surface studio-directory studio-asset-directory">
+              <div className="studio-panel-heading">
+                <h2>Direktori aset</h2><span key={filteredAssets.length} className="result-count">{filteredAssets.length} aset</span>
+              </div>
+              <div className="filter-row studio-toolbar">
+                <Label className="toolbar-search"><Icon name="search" size={15} /><Input className="workspace-search-input" aria-label="Cari ID aset, equipment, lokasi" placeholder="Cari ID, equipment, lokasi" value={query} onChange={(event) => setQuery(event.target.value)} /></Label>
+                <NativeSelect id="asset-filter" className="field-control filter-select" aria-label="Filter pemetaan" value={assetFilter} onChange={(event) => setAssetFilter(event.target.value)}>
+                  <NativeSelectOption>Semua pemetaan</NativeSelectOption>
+                  {Object.entries(assetStatusLabels).map(([value, label]) => <NativeSelectOption key={value} value={value}>{label}</NativeSelectOption>)}
+                </NativeSelect>
+                <ShadcnButton variant="outline" size="unset" className="action-button secondary" aria-pressed={assetFilter === "Review"} onClick={() => setAssetFilter(assetFilter === "Review" ? "Semua pemetaan" : "Review")}><Icon name="filter" size={15} /> Pengecualian</ShadcnButton>
+              </div>
+              <div className="table-wrap" tabIndex={0} role="region" aria-label="Tabel direktori aset">
+                <Table className="data-table asset-table">
+                  <TableHeader><TableRow><TableHead scope="col">ASET SAP</TableHead><TableHead scope="col">STATUS MAPPING</TableHead><TableHead scope="col">EQUIPMENT SAP</TableHead><TableHead scope="col">LOKASI</TableHead><TableHead scope="col">PEMILIK</TableHead></TableRow></TableHeader>
+                  <TableBody>
+                    {filteredAssets.map((row) => (
+                      <TableRow key={row.id}>
+                        <TableCell>
+                          <ShadcnButton variant="link" size="unset" className="asset-record" aria-label={`Lihat detail ${row.id}`} onClick={(event) => showAsset(event, row)}>
+                            <span className="mono">{row.id}</span><strong>{row.name}</strong><Icon name="arrow" size={14} />
+                          </ShadcnButton>
+                        </TableCell>
+                        <TableCell><Status tone={row.status === "Mapped" ? "complete" : row.status === "Review" ? "review" : "blocked"}>{assetStatusLabels[row.status]}</Status></TableCell>
+                        <TableCell className="mono">{row.equipment}</TableCell><TableCell>{row.location}</TableCell><TableCell>{row.owner}</TableCell>
+                      </TableRow>
+                    ))}
+                    {!filteredAssets.length && <TableRow><TableCell colSpan={5} className="empty-table">Tidak ada aset sesuai pencarian atau filter.</TableCell></TableRow>}
+                  </TableBody>
+                </Table>
+              </div>
+            </Card>
+            <div className="studio-split studio-asset-support" data-aos="studio-reveal">
+              <div>
+                {assetBanner && <WorkspaceBanner tone="warning" title="Master SAP tetap sumber utama" onDismiss={() => setAssetBanner(false)}>Mapping mencatat periode efektif dan riwayat audit tanpa mengubah master SAP.</WorkspaceBanner>}
+                <div className="studio-facts">
+                  <span><strong>1.284</strong> Aset pada snapshot SAP</span>
+                  <span><strong>96,4%</strong> Terpetakan · data simulasi</span>
+                  <span><strong>31</strong> Belum dipetakan</span>
+                  <span><strong>15</strong> Pengecualian</span>
+                </div>
+              </div>
+              <StudioCarousel title="Status pemetaan" slides={[
+                { title: "Terpetakan", description: "Aset memiliki setidaknya satu referensi equipment.", action: { label: "Lihat aset terpetakan", onClick: () => jumpToAssetFilter("Mapped") } },
+                { title: "Belum dipetakan", description: "Aset belum memiliki referensi equipment.", action: { label: "Lihat aset belum dipetakan", onClick: () => jumpToAssetFilter("Unmapped") } },
+                { title: "Perlu review", description: "Periksa pengecualian lokasi, pemilik, atau status equipment.", tone: "warning", action: { label: "Lihat aset perlu review", onClick: () => jumpToAssetFilter("Review") } },
+              ]} />
+            </div>
+          </StudioPage>
+        )}
+        {active === "analytics" && <CostAnalytics period={period} setPeriod={setPeriod} comparison={comparison} setComparison={setComparison} showToast={showToast} />}
+        {active === "imports" && (
+          <StudioPage className="studio-imports">
+            <StudioHeading title="Impor data SAP" description="Tinjau berkas dan pemetaan kolom sebelum menyimpan data ke workspace." />
+            <ol className="studio-steps" aria-label="Tahapan impor">
+              {importSteps.map((step, index) => <li key={step} aria-current={index === importStage ? "step" : undefined}><span>{index + 1}</span>{step}</li>)}
+            </ol>
+            <div className="import-layout">
+              <Card as="section" className="surface surface-pad">
+                <h2 className="panel-heading">Unggah berkas</h2>
+                <p className="panel-description">Pilih snapshot untuk analisis biaya, data aset, atau daftar equipment.</p>
+                <Label className="field-label" htmlFor="import-type">Jenis data</Label>
+                <NativeSelect id="import-type" className="field-control import-type" disabled={uploadBusy || commitBusy} value={importType} onChange={(event) => { setImportType(event.target.value); setPreview(null); setImportError(null); }}>
+                  <NativeSelectOption value="FINANCIAL_LINES">Cost Analytics · GL / CO / MM</NativeSelectOption>
+                  <NativeSelectOption value="ASSETS">Asset 360 · SAP Asset</NativeSelectOption>
+                  <NativeSelectOption value="EQUIPMENT">Asset 360 · Equipment</NativeSelectOption>
+                </NativeSelect>
+                <FileUpload file={file} disabled={uploadBusy || commitBusy} onChange={(next) => { setFile(next); setPreview(null); setImportError(null); }} />
+                {importError && !preview && <p className="import-error">{importError}</p>}
+                <StatefulButton className="action-button primary full-button" onClick={previewImport} loading={uploadBusy} pendingLabel="Membaca berkas…" disabled={!file || commitBusy}>Tampilkan pratinjau</StatefulButton>
+              </Card>
+              <aside className="studio-import-context" data-aos="studio-reveal">
+                <div className="import-art"><AccountingIllustration scene="import" /></div>
+                <StudioCarousel title="Panduan impor" slides={[
+                  { title: "Format berkas", description: "Gunakan CSV atau XLSX hingga 20 MB dengan header pada baris pertama." },
+                  { title: "Pemetaan kolom", description: "Pasangkan setiap kolom wajib dengan header yang sesuai dari berkas." },
+                  { title: "Validasi", description: "Tinjau jumlah baris valid dan kolom yang belum terdeteksi sebelum konfirmasi." },
+                ]} />
+              </aside>
+            </div>
+            {preview && <Card as="section" className="surface studio-directory preview-panel">
+              <div className="studio-panel-heading">
+                <div><h2>Pratinjau berkas</h2><p>{preview.rowCount} baris · {!importReady ? "Pilih sumber untuk setiap kolom wajib." : preview.requiredFields.every((field) => columnMapping[field] === preview.suggestedMapping[field]) ? `${preview.validCount} lolos validasi awal.` : "Pemetaan manual akan divalidasi saat konfirmasi."} Maksimal 5 baris ditampilkan.</p></div>
+                <StatefulButton className="action-button primary" onClick={commitImport} loading={commitBusy} pendingLabel="Menyimpan impor…" disabled={uploadBusy || !importReady}>Konfirmasi impor</StatefulButton>
+              </div>
+              {importError && <p className="import-error">{importError}</p>}
+              <div className="mapping-grid import-mapping">{preview.requiredFields.map((field) => <div className="mapping-row" key={field}>
+                <Label className="mapping-field" htmlFor={`mapping-${field}`}>{field}<span className="mapping-required" aria-hidden="true">Wajib</span></Label>
+                <NativeSelect id={`mapping-${field}`} className="field-control" value={columnMapping[field] ?? ""} required disabled={commitBusy || uploadBusy} onChange={(event) => setColumnMapping((current) => ({ ...current, [field]: event.target.value }))}>
+                  <NativeSelectOption value="">Pilih kolom sumber</NativeSelectOption>
+                  {preview.headers.map((header) => <NativeSelectOption key={header} value={header}>{header}</NativeSelectOption>)}
+                </NativeSelect>
+              </div>)}</div>
+              <div className="table-wrap">
+                <Table className="data-table">
+                  <TableHeader><TableRow>{preview.headers.map((header) => <TableHead key={header} scope="col">{header}</TableHead>)}</TableRow></TableHeader>
+                  <TableBody>{preview.preview.slice(0, 5).map((row, index) => <TableRow key={index}>{preview.headers.map((header) => <TableCell key={header}>{String(row[header] ?? "—")}</TableCell>)}</TableRow>)}</TableBody>
+                </Table>
+              </div>
+            </Card>}
+          </StudioPage>
+        )}
+        {active === "team" && (
+          <StudioPage className="studio-team">
+            <StudioHeading title="Tim Accounting" description="Tinjau peran, section, dan kapasitas mingguan anggota tim.">
+              <Button onClick={() => showToast("Pembuatan akun tersedia setelah Admin masuk.")}><Icon name="add" size={16} /> Undang anggota</Button>
+            </StudioHeading>
+            <div className="studio-split studio-team-layout">
+              <Card as="section" className="surface studio-directory">
+                <div className="studio-panel-heading"><h2>Anggota tim</h2><Badge variant="outline" className="simulation-badge">SIMULASI</Badge></div>
+                <div className="team-list studio-roster">
+                  {capacity.map((person) => {
+                    const load = Math.round(person.used / weeklyCapacity * 100);
+                    return <div className="team-row" key={person.name}>
+                      <Avatar className="person-mini large" aria-hidden="true"><AvatarFallback>{person.initials}</AvatarFallback></Avatar>
+                      <div className="team-member"><strong>{person.name}</strong><small>{person.role}</small></div>
+                      <span className="allocation-hours">{person.used} / {weeklyCapacity} j</span>
+                      <span className={`load-label ${load > 85 ? "load-high" : ""}`}>{load}%</span>
+                      <Progress value={load} aria-label={`Kapasitas ${person.name}`} aria-valuetext={`${person.used} dari ${weeklyCapacity} jam · ${load}%`} className="progress-track team-progress" indicatorClassName={`progress-value ${load > 85 ? "high" : ""}`} />
+                    </div>;
+                  })}
+                </div>
+              </Card>
+              <div data-aos="studio-reveal">
+                <StudioCarousel title="Peran & akses" slides={[
+                  { title: "Admin", description: "Kelola akun pengguna dan akses impor data." },
+                  { title: "Manager", description: "Atur penugasan dan tinjau beban kerja tim." },
+                  { title: "PIC", description: "Catat pekerjaan dan perbarui status tugas yang menjadi tanggung jawabnya." },
+                ]} />
+              </div>
+            </div>
+          </StudioPage>
+        )}
       </div>
-      <footer className="page-footer"><span>Digital Accounting <i>·</i> Data pratinjau</span><span><a href="https://lordicon.com" target="_blank" rel="noreferrer">Ikon Lordicon</a></span></footer>
+      <footer className="page-footer"><span>Digital Accounting <i>·</i> Data pratinjau</span></footer>
     </main>
     <Dialog open={modal} onOpenChange={changeTaskDialog}>
       <DialogContent showCloseButton={false} initialFocus={taskNameInput} finalFocus={taskTrigger}>
@@ -236,7 +458,7 @@ export default function Home() {
             <DialogDescription>Catat pekerjaan dan estimasi kapasitas PIC.</DialogDescription>
           </div>
           <DialogClose className="icon-button" aria-label="Tutup" disabled={taskBusy}>
-            <X size={18} aria-hidden="true" />
+            <Icon name="close" size={18} />
           </DialogClose>
         </div>
         <form onSubmit={submitTask} className="modal-body">
@@ -271,18 +493,19 @@ export default function Home() {
         </form>
       </DialogContent>
     </Dialog>
-    <Dialog open={selectedAsset !== null} onOpenChange={(open) => { if (!open) setSelectedAsset(null); }}>
-      <DialogContent showCloseButton={false} finalFocus={assetTrigger}>
+    <Sheet open={selectedAsset !== null} onOpenChange={(open) => { if (!open) setSelectedAsset(null); }}>
+      <SheetContent className="studio-asset-sheet" finalFocus={assetTrigger}>
         <div className="modal-head">
           <div>
-            <DialogTitle>Detail aset</DialogTitle>
-            <DialogDescription>Referensi finance dan equipment · data simulasi</DialogDescription>
+            <SheetTitle className="modal-title">Detail aset</SheetTitle>
+            <SheetDescription>Referensi finance dan equipment · data simulasi</SheetDescription>
           </div>
-          <DialogClose className="icon-button" aria-label="Tutup detail aset"><X size={18} aria-hidden="true" /></DialogClose>
+          <SheetClose className="icon-button" aria-label="Tutup detail aset"><Icon name="close" size={18} /></SheetClose>
         </div>
         {selectedAsset && (
           <div className="modal-body">
             <h3 className="asset-detail-title">{selectedAsset.name}</h3>
+            <figure className="asset-map-guide"><AccountingIllustration scene="asset" className="asset-map-art" /><figcaption>Contoh struktur pemetaan</figcaption></figure>
             <dl className="asset-detail-list">
               <div><dt>ID aset SAP</dt><dd className="mono">{selectedAsset.id}</dd></div>
               <div><dt>Equipment tertaut</dt><dd className="mono">{selectedAsset.equipment}</dd></div>
@@ -292,12 +515,12 @@ export default function Home() {
             </dl>
             <p className="field-help">Riwayat perubahan tersedia setelah data sumber diimpor.</p>
             <div className="modal-actions">
-              <DialogClose render={<ShadcnButton variant="outline" className="action-button secondary" />}>Tutup</DialogClose>
+              <SheetClose render={<ShadcnButton variant="outline" className="action-button secondary" />}>Tutup</SheetClose>
             </div>
           </div>
         )}
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
     {toast && <WorkspaceToast key={toast.id} kind={toast.kind} message={toast.message} onDismiss={dismissToast} />}
   </div>;
 }
@@ -316,40 +539,41 @@ function Overview({ setActive, openModal, banner, onDismissBanner, rows }: {
   ] as const;
 
   return (
-    <section className="page-section overview-page">
-      <div className="page-heading overview-heading">
-        <div>
-          <h1>Antrian kerja Accounting</h1>
-          <p>Pekerjaan, kapasitas, dan pengecualian yang perlu ditangani hari ini.</p>
-        </div>
-        <div className="heading-actions">
-          <Button variant="secondary" onClick={() => setActive("analytics")}>Lihat analisis <ArrowRight size={15} aria-hidden="true" /></Button>
-          <Button onClick={openModal}><Plus size={16} aria-hidden="true" /> Buat pekerjaan</Button>
-        </div>
-      </div>
-      <div className="stats-strip overview-stats">
-        <Metric label="Pekerjaan aktif" value="28" note="4 perlu perhatian" />
-        <Metric label="Selesai bulan ini" value="84" note="dari target ilustratif 92" />
-        <Metric label="Utilisasi tim" value="76%" note="Data demo · 40 jam per PIC" />
-        <Metric label="Pengecualian data" value="12" note="3 berdampak tinggi" positive={false} />
-      </div>
-      <div className="overview-grid">
-        <Card as="article" className="surface surface-pad task-queue-panel">
+    <StudioPage className="studio-overview">
+      <StudioHeading title="Antrean kerja Accounting" description="Lihat tenggat, kapasitas, dan pengecualian yang perlu ditangani hari ini.">
+        <Button onClick={openModal}><Icon name="add" size={16} /> Buat pekerjaan</Button>
+      </StudioHeading>
+      <div className="studio-split studio-overview-layout">
+        <Card as="article" className="surface task-queue-panel">
           <div className="section-title">
             <div><h2>Prioritas hari ini</h2><p>Tenggat dan status pekerjaan tim</p></div>
             <ShadcnButton variant="ghost" size="unset" className="section-link" onClick={() => setActive("tasks")}>
-              Semua pekerjaan <ArrowRight size={14} aria-hidden="true" />
+              Semua pekerjaan <Icon name="arrow" size={14} />
             </ShadcnButton>
           </div>
           <TaskTable rows={rows.slice(0, 5)} />
         </Card>
-        <aside className="overview-side" aria-label="Konteks antrean">
+        <aside className="studio-context" aria-label="Konteks antrean">
+          <section className="studio-brief">
+            <h2>Ringkasan operasional</h2>
+            <AccountingIllustration scene="ledger" />
+            <div className="studio-brief-grid">
+              <Metric label="Pekerjaan aktif" value="28" note="4 perlu perhatian" />
+              <Metric label="Selesai bulan ini" value="84" note="target ilustratif 92" />
+              <Metric label="Utilisasi tim" value={`${utilization}%`} note="Data demo · 40 jam/PIC" />
+              <Metric label="Pengecualian" value="12" note="3 berdampak tinggi" positive={false} />
+            </div>
+          </section>
+          {banner && <NoticeCarousel onAnalytics={() => setActive("analytics")} onAssets={() => setActive("assets")} onDismiss={onDismissBanner} />}
+        </aside>
+      </div>
+      <div className="studio-split studio-overview-followup" data-aos="studio-reveal">
           <Card as="article" className="surface surface-pad capacity-panel">
             <div className="section-title"><div><h2>Kapasitas tim</h2><p>Jam aktif dari 40 jam per minggu</p></div></div>
             <Capacity />
             <p className="capacity-caption">Nadia mendekati kapasitas. Tinjau distribusi pekerjaan baru.</p>
             <ShadcnButton variant="ghost" size="unset" className="capacity-link" onClick={() => setActive("team")}>
-              Kelola beban kerja <ArrowRight size={13} aria-hidden="true" />
+              Kelola beban kerja <Icon name="arrow" size={13} />
             </ShadcnButton>
           </Card>
           <Card as="article" className="surface surface-pad exception-panel">
@@ -362,16 +586,12 @@ function Overview({ setActive, openModal, banner, onDismissBanner, rows }: {
                 <ShadcnButton key={area} variant="ghost" size="unset" className="exception-row" onClick={() => setActive(area)}>
                   <span className="exception-text"><strong>{label}</strong><small>{detail}</small></span>
                   <span className="exception-impact">{impact}</span>
-                  <ArrowRight className="exception-arrow" size={14} aria-hidden="true" />
+                  <Icon name="arrow" className="exception-arrow" size={14} />
                 </ShadcnButton>
               ))}
             </div>
           </Card>
-        </aside>
-      </div>
-      <div className="overview-sources" data-has-notices={banner || undefined}>
-        <ScrollMotion />
-        <Card as="article" className="surface surface-pad source-panel" data-aos="ledger-reveal">
+        <Card as="article" className="surface surface-pad source-panel">
           <div className="section-title"><div><h2>Sumber data</h2><p>Snapshot terakhir di workspace</p></div></div>
           <div className="source-total"><span>3</span><div><strong>snapshot SAP</strong><small>seluruh nilai bersifat simulasi</small></div></div>
           <div className="source-list">
@@ -380,18 +600,23 @@ function Overview({ setActive, openModal, banner, onDismissBanner, rows }: {
             <div><span className="source-dot pending" aria-hidden="true" /><span>Equipment master · Okt</span><small>Perlu review</small></div>
           </div>
           <ShadcnButton variant="ghost" size="unset" className="capacity-link" onClick={() => setActive("imports")}>
-            Buka impor data <ArrowRight size={13} aria-hidden="true" />
+            Buka impor data <Icon name="arrow" size={13} />
           </ShadcnButton>
         </Card>
-        {banner && <NoticeCarousel onAnalytics={() => setActive("analytics")} onAssets={() => setActive("assets")} onDismiss={onDismissBanner} />}
       </div>
-    </section>
+    </StudioPage>
   );
 }
 
-function TaskTable({ rows }: { rows: typeof tasks }) {
-  return <div className="table-wrap"><Table className="priority-table"><TableHeader><TableRow><TableHead scope="col">PEKERJAAN</TableHead><TableHead scope="col">PIC</TableHead><TableHead scope="col">TENGGAT</TableHead><TableHead scope="col">STATUS</TableHead></TableRow></TableHeader><TableBody>{rows.length ? rows.map((task) => <TableRow key={task.code}><TableCell><div className="task-name">{task.name}</div><div className="task-sub">{task.code} <span>·</span> {task.section}</div></TableCell><TableCell data-label="PIC"><div className="person-cell"><Avatar className="person-mini" aria-hidden="true"><AvatarFallback>{task.initials}</AvatarFallback></Avatar><span>{task.person}</span></div></TableCell><TableCell data-label="Tenggat" className="due-cell">{task.due}</TableCell><TableCell data-label="Status"><Status tone={task.tone}>{task.status}</Status></TableCell></TableRow>) : <TableRow><TableCell colSpan={4} className="empty-table">Tidak ada pekerjaan sesuai pencarian.</TableCell></TableRow>}</TableBody></Table></div>;
+function TaskTable({ rows, filtered = true }: { rows: typeof tasks; filtered?: boolean }) {
+  return <div className="table-wrap"><Table className="priority-table"><TableHeader><TableRow><TableHead scope="col">PEKERJAAN</TableHead><TableHead scope="col">PIC</TableHead><TableHead scope="col">TENGGAT</TableHead><TableHead scope="col">STATUS</TableHead></TableRow></TableHeader><TableBody>{rows.length ? rows.map((task) => <TableRow key={task.code}><TableCell><div className="task-name">{task.name}</div><div className="task-sub">{task.code} <span>·</span> {task.section}</div></TableCell><TableCell data-label="PIC"><div className="person-cell"><Avatar className="person-mini" aria-hidden="true"><AvatarFallback>{task.initials}</AvatarFallback></Avatar><span>{task.person}</span></div></TableCell><TableCell data-label="Tenggat" className="due-cell">{task.due}</TableCell><TableCell data-label="Status"><Status tone={task.tone}>{task.status}</Status></TableCell></TableRow>) : <TableRow><TableCell colSpan={4} className="empty-table"><AccountingIllustration scene="tasks" /><strong>{filtered ? "Tidak ada pekerjaan sesuai pencarian." : "Belum ada pekerjaan."}</strong><p>{filtered ? "Coba nama PIC, kode, atau status lain." : "Buat pekerjaan untuk mengisi daftar tim."}</p></TableCell></TableRow>}</TableBody></Table></div>;
 }
 function Capacity() {
-  return <div className="capacity-list">{[{ name: "Nadia Putri", used: 35, cap: 40, color: "critical" }, { name: "Rizky Ananda", used: 31, cap: 40, color: "" }, { name: "Dimas Prakoso", used: 25, cap: 40, color: "" }, { name: "Sari Wulandari", used: 20, cap: 40, color: "" }].map((p) => <div className="capacity-row" key={p.name}><span className="capacity-name">{p.name}</span><Progress value={p.used} max={p.cap} aria-label={`Kapasitas ${p.name}`} aria-valuetext={`${p.used} dari ${p.cap} jam`} className="capacity-track" indicatorClassName={`capacity-fill ${p.color}`} /><span className="capacity-label">{p.used}<i> / {p.cap} j</i></span></div>)}</div>;
+  return <div className="capacity-list">{capacity.map((person) => (
+    <div className="capacity-row" key={person.name}>
+      <span className="capacity-name">{person.name}</span>
+      <Progress value={person.used} max={weeklyCapacity} aria-label={`Kapasitas ${person.name}`} aria-valuetext={`${person.used} dari ${weeklyCapacity} jam`} className="capacity-track" indicatorClassName={`capacity-fill ${person.used >= 35 ? "critical" : ""}`} />
+      <span className="capacity-label">{person.used}<i> / {weeklyCapacity} j</i></span>
+    </div>
+  ))}</div>;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
-import { X } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -22,7 +22,7 @@ function DialogContent({ className, children, showCloseButton = true, ...props }
         {children}
         {showCloseButton && (
           <DialogClose render={<Button variant="ghost" size="icon-sm" className="absolute top-3 right-3" />} aria-label="Tutup">
-            <X aria-hidden="true" />
+            <Icon name="close" />
           </DialogClose>
         )}
       </DialogPrimitive.Popup>

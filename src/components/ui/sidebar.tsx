@@ -31,18 +31,23 @@ export function Sidebar({ children, open, onOpenChange, triggerRef }: { children
   </>;
 }
 
-export function SidebarLink({ icon, label, active, onClick }: { icon: ReactNode; label: string; active: boolean; onClick: () => void }) {
+export function SidebarLink({ icon, label, shortLabel, active, onClick }: {
+  icon: ReactNode; label: string; shortLabel: string; active: boolean; onClick: () => void;
+}) {
   const reducedMotion = useReducedMotion();
   return <Button
     variant="ghost"
     size="unset"
     className="nav-link"
+    aria-label={label}
     aria-current={active ? "page" : undefined}
     onClick={onClick}
     render={<motion.button whileHover="hover" whileFocus="hover" />}
   >
     {active && <motion.span aria-hidden="true" layoutId="active-navigation" className="sidebar-active-background" transition={{ duration: reducedMotion ? 0 : 0.18, ease: [0.22, 1, 0.36, 1] }} />}
     {icon}
-    <motion.span className="sidebar-link-label" variants={{ hover: { x: reducedMotion ? 0 : 3 } }} transition={{ duration: 0.15 }}>{label}</motion.span>
+    <motion.span className="sidebar-link-label" variants={{ hover: { x: reducedMotion ? 0 : 3 } }} transition={{ duration: 0.15 }}>
+      <span className="sidebar-full-label">{label}</span><span className="sidebar-short-label">{shortLabel}</span>
+    </motion.span>
   </Button>;
 }

@@ -6,20 +6,13 @@ related_targets: ["src/app/workspace.tsx", "src/app/login/page.tsx"]
 ---
 
 ## Scope
-Primary route: `src/app/page.tsx`. Operate surface for Accounting PICs and Managers. Redesign the shared workspace shell and its six in-app modules: Command Center, Task & Workload, Asset 360, Cost Analytics, Data Imports, and Team & Access. Preserve current interactions, API payloads, role-aware access, and simulated-data labeling.
 
-## Current selection
-The user selected palette D (Graphite & Aubergine) and Chart.js with react-chartjs-2 for all charts. Preserve the queue-first composition. Cost comparison tabs and period selections must update synthetic datasets and metrics together. No future-month actuals; disclose when detailed records only cover October.
+Digital Accounting serves PICs, Managers and Admins across the work queue, capacity roster, Asset 360, cost analysis, data imports and login.
 
-## Direction contract
-THESIS: An evidence-first accounting workspace puts the work that needs a decision at the center, instead of treating every metric as an equal dashboard card.
+## Ledger Editorial
 
-OWN-WORLD: Accounting Operations Ledger uses user-selected palette D: graphite #292730 navigation, aubergine #705080 actions, teal #347C88 chart accent, #F7F5F8 canvas, and white work surfaces, with strong sans headings, mono only for codes and measurements, compact rule lines, and one teal source-trace path. Keep the selected Trace Loop logo. Avoid decorative archive motifs, sparkle, glow, and repeated icon cards.
+Ledger Editorial brings the daily work queue, its assignees and deadlines into the first viewport. A Gunmetal sidebar binds the Alabaster canvas. Ruled tables, tabular amounts and compact section titles follow the structure of an accounting ledger.
 
-STORY: PICs can see what is due or blocked and act. Managers can read capacity pressure, reroute work, and move from an asset exception or cost variance to its supporting record.
+Gunmetal (#393e41) is the navigation and reading ink. Alabaster Grey (#e7e5df) is the canvas and Dust Grey (#d3d0cb) defines table rules. Ocean Mist (#44bba4) identifies actions and active navigation, with Gunmetal text. Deep teal (#205e52) carries links and focus indicators on paper. Tuscan Sun (#e7bb41) draws attention to exceptions. Use a text label for each status and reserve red for errors.
 
-FIRST VIEWPORT: Use a compact graphite rail and utility bar. A direct task heading and “Buat pekerjaan” action lead into a compact summary strip and a wide ruled priority queue. Capacity and exceptions sit beside the queue on desktop and follow it on mobile. Source snapshots and notices share the next row. The login panel illustrates the accounting data flow using the same visual language as imports.
-
-FORM: Ledger modern, `seed: none (pinned)` — “Antrean kerja lebih menonjol, tabel mudah dipindai, dan animasi paling ekspresif ada di login, loading, serta ilustrasi impor.”
-
-FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+Use IBM Plex Sans for interface text and IBM Plex Mono for codes. Pair tinted panel headers with local Potlab SVG icons. Keep simulation labels, Lottie illustrations, accessible forms and expandable chart data visible in context. Show the login form before the illustrated preview on phones. Motion follows the heading trace, control feedback, and pending actions. Reduced motion preserves state changes immediately.

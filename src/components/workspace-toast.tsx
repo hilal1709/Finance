@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AlertTriangle, CircleCheck, Info, X } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 const variants = {
-  success: { title: "Berhasil", Icon: CircleCheck },
-  info: { title: "Informasi", Icon: Info },
-  error: { title: "Perlu perhatian", Icon: AlertTriangle },
+  success: { title: "Berhasil", icon: "success" },
+  info: { title: "Informasi", icon: "info" },
+  error: { title: "Perlu perhatian", icon: "warning" },
 } as const;
 
 export type ToastKind = keyof typeof variants;
@@ -24,7 +24,7 @@ export function WorkspaceToast({ kind, message, onDismiss }: {
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const reducedMotion = usePrefersReducedMotion();
-  const { title, Icon } = variants[kind];
+  const { title, icon } = variants[kind];
 
   useEffect(() => {
     if (kind === "error" || hovered || focused) return;
@@ -43,9 +43,9 @@ export function WorkspaceToast({ kind, message, onDismiss }: {
     void import("animejs").then(({ animate }) => {
       if (disposed || !card.current) return;
       const animation = animate(card.current, {
-        translateY: [8, 0],
-        opacity: [0.85, 1],
-        duration: 230,
+        translateY: [10, 0],
+        opacity: [0.7, 1],
+        duration: 220,
         ease: "outExpo",
       });
       revert = () => { animation.revert(); };
@@ -65,13 +65,13 @@ export function WorkspaceToast({ kind, message, onDismiss }: {
       }}
     >
       <Alert role="presentation" className={`toast-card ${kind}`}>
-        <span className="toast-icon" aria-hidden="true"><Icon size={17} /></span>
+        <span className="toast-icon" aria-hidden="true"><Icon name={icon} size={19} /></span>
         <div className="toast-copy" role={kind === "error" ? "alert" : "status"} aria-atomic="true">
           <strong>{title}</strong>
           <span>{message}</span>
         </div>
         <Button variant="ghost" size="unset" className="toast-close" aria-label="Tutup notifikasi" onClick={onDismiss}>
-          <X size={16} aria-hidden="true" />
+          <Icon name="close" size={16} />
         </Button>
       </Alert>
     </div>

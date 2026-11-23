@@ -3,6 +3,7 @@
 import { Bar } from "react-chartjs-2";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import { Icon } from "@/components/ui/icon";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption } from "@/components/ui/table";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, Legend, type ChartOptions } from "chart.js";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
@@ -24,12 +25,12 @@ function useChartOptions(horizontal = false): ChartOptions<"bar"> {
         display: !horizontal,
         position: "bottom",
         align: "start",
-        labels: { color: "#665C6D", boxWidth: 10, boxHeight: 10, padding: 18, font: { family: "IBM Plex Sans Variable", size: 11 } },
+        labels: { color: "#535956", boxWidth: 10, boxHeight: 10, padding: 18, font: { family: "IBM Plex Sans Variable", size: 11 } },
       },
       tooltip: {
-        backgroundColor: "#292730",
+        backgroundColor: "#393e41",
         titleColor: "#FFFFFF",
-        bodyColor: "#F2EDF5",
+        bodyColor: "#e7e5df",
         padding: 12,
         cornerRadius: 7,
         callbacks: {
@@ -41,16 +42,16 @@ function useChartOptions(horizontal = false): ChartOptions<"bar"> {
       x: {
         beginAtZero: horizontal,
         border: { display: false },
-        grid: { display: horizontal, color: "#E8E2EB" },
-        ticks: { color: "#665C6D", font: { family: "IBM Plex Sans Variable", size: 10 }, maxRotation: 0 },
-        ...(horizontal ? { title: { display: true, text: "Perubahan · Rp juta", color: "#665C6D" } } : {}),
+        grid: { display: horizontal, color: "#d3d0cb" },
+        ticks: { color: "#535956", font: { family: "IBM Plex Sans Variable", size: 12 }, maxRotation: 0 },
+        ...(horizontal ? { title: { display: true, text: "Perubahan · Rp juta", color: "#535956" } } : {}),
       },
       y: {
         beginAtZero: true,
         border: { display: false },
-        grid: { display: !horizontal, color: "#E8E2EB" },
-        ticks: { color: "#665C6D", font: { family: "IBM Plex Sans Variable", size: 10 } },
-        ...(!horizontal ? { title: { display: true, text: "Rp miliar", color: "#665C6D" } } : {}),
+        grid: { display: !horizontal, color: "#d3d0cb" },
+        ticks: { color: "#535956", font: { family: "IBM Plex Sans Variable", size: 12 } },
+        ...(!horizontal ? { title: { display: true, text: "Rp miliar", color: "#535956" } } : {}),
       },
     },
   };
@@ -64,13 +65,13 @@ export function CostTrendChart({ period, comparison }: { period: CostPeriod; com
       <Bar role="img" aria-label={`Tren biaya simulasi ${snapshot.rangeLabel}, perbandingan ${comparison}. Angka tersedia pada tabel di bawah.`} options={options} data={{
         labels: snapshot.labels,
         datasets: [
-          { label: snapshot.actualLabel, data: snapshot.actual, backgroundColor: "#705080" },
-          { label: snapshot.baselineLabel, data: snapshot.baseline, backgroundColor: "#347C88" },
+          { label: snapshot.actualLabel, data: snapshot.actual, backgroundColor: "#393e41" },
+          { label: snapshot.baselineLabel, data: snapshot.baseline, backgroundColor: "#44bba4" },
         ],
       }} />
     </div>
     <Collapsible className="chart-data-summary">
-      <CollapsibleTrigger render={<Button variant="ghost" className="chart-data-trigger" />}>Lihat angka grafik</CollapsibleTrigger>
+      <CollapsibleTrigger render={<Button variant="ghost" className="chart-data-trigger" />}><Icon name="chevron-right" size={12} />Lihat angka grafik</CollapsibleTrigger>
       <CollapsibleContent><div className="table-wrap"><Table className="data-table">
         <TableCaption>Data simulasi · Rp miliar</TableCaption>
         <TableHeader><TableRow><TableHead scope="col">Bulan</TableHead><TableHead scope="col">{snapshot.actualLabel}</TableHead><TableHead scope="col">{snapshot.baselineLabel}</TableHead></TableRow></TableHeader>
@@ -86,11 +87,11 @@ export function CostDriverChart() {
     <div className="cost-chart">
       <Bar role="img" aria-label="Perubahan biaya Oktober terhadap September 2026: utilitas naik 286, pemeliharaan naik 142, bahan pendukung turun 94, transportasi naik 68 juta Rupiah. Data simulasi." options={options} data={{
         labels: costDrivers.map((driver) => driver.label),
-        datasets: [{ label: "Perubahan biaya", data: costDrivers.map((driver) => driver.value), backgroundColor: costDrivers.map((driver) => driver.value < 0 ? "#347C88" : "#705080") }],
+        datasets: [{ label: "Perubahan biaya", data: costDrivers.map((driver) => driver.value), backgroundColor: costDrivers.map((driver) => driver.value < 0 ? "#44bba4" : "#393e41") }],
       }} />
     </div>
     <Collapsible className="chart-data-summary">
-      <CollapsibleTrigger render={<Button variant="ghost" className="chart-data-trigger" />}>Lihat rincian kontribusi</CollapsibleTrigger>
+      <CollapsibleTrigger render={<Button variant="ghost" className="chart-data-trigger" />}><Icon name="chevron-right" size={12} />Lihat rincian kontribusi</CollapsibleTrigger>
       <CollapsibleContent><div className="table-wrap"><Table className="data-table">
         <TableCaption>Kontributor terpilih, bukan seluruh perubahan · Rp juta</TableCaption>
         <TableHeader><TableRow><TableHead scope="col">Kategori</TableHead><TableHead scope="col">Cost center</TableHead><TableHead scope="col">Perubahan</TableHead></TableRow></TableHeader>

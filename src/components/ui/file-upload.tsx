@@ -2,7 +2,7 @@
 
 import { useId, useRef, useState } from "react";
 import { LayoutGroup, motion, useReducedMotion } from "motion/react";
-import { FileSpreadsheet, Upload, X } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -44,13 +44,13 @@ export function FileUpload({ file, onChange, disabled = false }: { file: File | 
         <Label className="file-upload-label" htmlFor={`${id}-file`}>
           <motion.span key={file ? "selected" : "empty"} layoutId="file-tile" className="file-upload-tile"
             variants={{ hover: { y: file || reducedMotion ? 0 : -4 } }} transition={{ duration: reducedMotion ? 0 : 0.18 }} aria-hidden="true">
-            {file ? <FileSpreadsheet size={23} /> : <Upload size={23} />}
+            {file ? <Icon name="file" size={23} /> : <Icon name="upload" size={23} />}
           </motion.span>
           <strong>{file ? file.name : "Pilih file CSV atau XLSX"}</strong>
           <span id={`${id}-help`}>{file ? `${(file.size / 1024).toFixed(0)} KB · siap dipratinjau` : "Tarik file ke sini atau pilih berkas · maksimum 20 MB"}</span>
         </Label>
       </motion.div>
-      {file && <Button variant="ghost" size="sm" className="file-upload-remove" disabled={disabled} onClick={() => { onChange(null); setError(""); }}><X size={14} /> Hapus berkas</Button>}
+      {file && <Button variant="ghost" size="sm" className="file-upload-remove" disabled={disabled} onClick={() => { onChange(null); setError(""); }}><Icon name="close" size={14} /> Hapus berkas</Button>}
       {error && <p id={`${id}-error`} className="file-upload-error" role="alert">{error}</p>}
     </div>
   </LayoutGroup>;

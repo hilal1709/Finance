@@ -1,15 +1,11 @@
 ## Scope
-Primary route: `src/app/page.tsx`. This is an Operate surface for Accounting PICs and Managers. The first task is to scan current task risk and team capacity, then open a task, asset exception, or cost variance to act on it. Evidence is task status and deadline, capacity by section, mapping exceptions, and source-linked transaction detail. Preserve standard web navigation and controls, the selected indigo/teal palette, role-aware access, and the client brief's synthetic-data labels.
 
-## Direction contract
-THESIS: One role-aware command center keeps assigned work, team capacity, asset links, and cost evidence in a traceable system.
+Digital Accounting serves PICs, Managers and Admins across the work queue, capacity roster, Asset 360, cost analysis, data imports and login.
 
-OWN-WORLD: Records Index uses a deep indigo navigation field, clear teal index markers, light mineral surfaces, and precise sans/mono data typography. Its signature move is a provenance ribbon that connects period, account, cost center, document, and line item. Archive motifs stay out of controls and tables.
+## Ledger Editorial
 
-STORY: PICs know what they own and what is blocked. Managers see where capacity is tight and can reroute work without pausing execution. Accounting users can follow an exception or variance back to its source.
+Ledger Editorial brings the daily work queue, its assignees and deadlines into the first viewport. A Gunmetal sidebar binds the Alabaster canvas. Ruled tables, tabular amounts and compact section titles follow the structure of an accounting ledger.
 
-FIRST VIEWPORT: Fixed indigo sidebar names Overview, Task Board, Asset 360, Cost Analytics, Imports, and Team. The main area opens with “Team Command Center,” a compact deadline/status strip, a dense priority task table, a section capacity view, and an exceptions list. Primary action “Buat pekerjaan” sits in the page header. A single provenance ribbon is attached to the cost insight.
+Gunmetal (#393e41) is the navigation and reading ink. Alabaster Grey (#e7e5df) is the canvas and Dust Grey (#d3d0cb) defines table rules. Ocean Mist (#44bba4) identifies actions and active navigation, with Gunmetal text. Deep teal (#205e52) carries links and focus indicators on paper. Tuscan Sun (#e7bb41) draws attention to exceptions. Use a text label for each status and reserve red for errors.
 
-FORM: Records Index, candidate 6 of seven grounded visual systems; assigned by concept-seed. seed:47f2f373921365f9.
-
-FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+Use IBM Plex Sans for interface text and IBM Plex Mono for codes. Give the priority queue a tinted header and place the dark summary and manual notices beside it at wide widths. On phones, stack supporting panels after the queue. Keep simulation labels, Lottie illustrations, and expandable chart data visible in context. Animate the heading trace and control feedback, with instantaneous state changes under reduced motion.

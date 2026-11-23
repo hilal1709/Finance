@@ -42,7 +42,7 @@ The product joins task ownership and capacity, finance-to-equipment asset links,
 ## Brand Commitments
 
 - Product name: Digital Accounting.
-- The user selected palette D, Graphite & Aubergine: graphite navigation #292730, aubergine actions #705080, chart accent #347C88, canvas #F7F5F8, and white surfaces. References: 21st.dev and horizonx.so.
+- Ledger Editorial uses Gunmetal #393e41, Dust Grey #d3d0cb, Alabaster Grey #e7e5df, Ocean Mist #44bba4 and Tuscan Sun #e7bb41. UI references include 21st.dev and horizonx.so.
 - The user requested a logo developed with the logo-design-skill workflow.
 
 ## Evidence on Hand

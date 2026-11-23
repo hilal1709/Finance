@@ -3,7 +3,7 @@
 import type { ComponentProps, ReactNode } from "react";
 import { useFormStatus } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { LoaderCircle } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 
 // Adapted from https://ui.aceternity.com/components/stateful-button.
@@ -18,7 +18,7 @@ export function StatefulButton({ loading = false, pendingLabel, children, disabl
     <AnimatePresence initial={false}>
       {busy && <motion.span key="loader" aria-hidden="true" initial={reducedMotion ? false : { width: 0, opacity: 0 }}
         animate={{ width: 16, opacity: 1 }} exit={{ width: 0, opacity: 0 }} transition={{ duration: reducedMotion ? 0 : 0.15 }}>
-        <LoaderCircle size={16} className="motion-safe:animate-spin" />
+        <Icon name="spinner" size={16} />
       </motion.span>}
     </AnimatePresence>
     {busy && pendingLabel ? pendingLabel : children}

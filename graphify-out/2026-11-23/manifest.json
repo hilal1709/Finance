@@ -132,10 +132,10 @@
     "semantic_hash": "48dba42de6ba769377341f46e0981dee"
   },
   "components.json": {
-    "mtime": 1795357359.7689557,
-    "seen": 1795360063.152218,
-    "ast_hash": "fc5c9e9a7b93eeb2f7b4e1ce0959e4a6",
-    "semantic_hash": "fc5c9e9a7b93eeb2f7b4e1ce0959e4a6"
+    "mtime": 1795403963.80147,
+    "seen": 1795421168.4217298,
+    "ast_hash": "d79ba69ce958fd922fafa144e8ddde55",
+    "semantic_hash": ""
   },
   "eslint.config.mjs": {
     "mtime": 1795356146.063012,
@@ -150,9 +150,9 @@
     "semantic_hash": "59ace8843cd0f04a4328b2189aead87b"
   },
   "package.json": {
-    "mtime": 1795403243.5518308,
-    "seen": 1795403467.06787,
-    "ast_hash": "41576cf2cd9fe7cf7d102d4d97da5fdb",
+    "mtime": 1795434154.800956,
+    "seen": 1795437226.3659427,
+    "ast_hash": "5a0d664842121eedf50e94ba57648a4a",
     "semantic_hash": ""
   },
   "prisma.config.ts": {
@@ -174,9 +174,9 @@
     "semantic_hash": "f28f7f05fc1765bfe52bc865f7fabfbf"
   },
   "public/accounting-orbit.json": {
-    "mtime": 1795401568.2941842,
-    "seen": 1795403467.069249,
-    "ast_hash": "4adb317eac45f23063ff9d0e0832a1bf",
+    "mtime": 1795421259.407582,
+    "seen": 1795421379.316527,
+    "ast_hash": "3099d14fbdfe4dad62d164fe74692e4c",
     "semantic_hash": ""
   },
   "skills-lock.json": {
@@ -252,15 +252,15 @@
     "semantic_hash": "7470ee6db03fb63c214b1d054b02de1b"
   },
   "src/app/layout.tsx": {
-    "mtime": 1795362207.4388943,
-    "seen": 1795365797.590757,
-    "ast_hash": "8a0156f27f7b412ab0423be860690c4d",
-    "semantic_hash": "8a0156f27f7b412ab0423be860690c4d"
+    "mtime": 1795437134.9450667,
+    "seen": 1795437226.3888545,
+    "ast_hash": "0efbdd4a0dfbb5c1f3ae534537d9afff",
+    "semantic_hash": ""
   },
   "src/app/login/page.tsx": {
-    "mtime": 1795402830.9557612,
-    "seen": 1795403467.0779405,
-    "ast_hash": "042935d4a1dae6fa9b0ccd8e35526d55",
+    "mtime": 1795435378.3743243,
+    "seen": 1795437226.389889,
+    "ast_hash": "ad90b78c9189c5a7226c00ef3c304b8a",
     "semantic_hash": ""
   },
   "src/app/page.tsx": {
@@ -276,22 +276,22 @@
     "semantic_hash": "89cefb93700df376d83a006baa2a557e"
   },
   "src/components/motion-runtime.tsx": {
-    "mtime": 1795402583.2868233,
-    "seen": 1795403467.080519,
-    "ast_hash": "2ea551918def4123363cdbd8520d402c",
+    "mtime": 1795420715.1814995,
+    "seen": 1795421168.444288,
+    "ast_hash": "0a61f9acc413215274972a297b60f06f",
     "semantic_hash": ""
   },
   "src/components/notice-carousel.tsx": {
-    "mtime": 1795402830.9411006,
-    "seen": 1795403467.080526,
-    "ast_hash": "e4799602a012954e2e50fb63bed8777a",
+    "mtime": 1795433967.1345983,
+    "seen": 1795437226.3924782,
+    "ast_hash": "1d5c97d01330fbe175667d62e7833ac3",
     "semantic_hash": ""
   },
   "src/components/ui/button.tsx": {
-    "mtime": 1795357376.829161,
-    "seen": 1795360063.1522624,
-    "ast_hash": "2700bddde0ac66fc6f2fc1b56fcfdc2d",
-    "semantic_hash": "2700bddde0ac66fc6f2fc1b56fcfdc2d"
+    "mtime": 1795404685.328724,
+    "seen": 1795421168.4443243,
+    "ast_hash": "5bdbf470bf652ec343ed228779e98cda",
+    "semantic_hash": ""
   },
   "src/generated/prisma/browser.ts": {
     "mtime": 1795358453.770233,
@@ -444,15 +444,15 @@
     "semantic_hash": "ee17fd1c97c735e9f3564e3f5251f125"
   },
   "src/app/workspace.tsx": {
-    "mtime": 1795403211.6867132,
-    "seen": 1795403467.079495,
-    "ast_hash": "ee6a03aa28e10958842af794b1464235",
+    "mtime": 1795437117.7694519,
+    "seen": 1795437226.3907664,
+    "ast_hash": "ecebb93a1844a30bcf8e72f8bb4c150a",
     "semantic_hash": ""
   },
   ".impeccable/design.json": {
-    "mtime": 1795401895.2061205,
-    "seen": 1795403467.0664344,
-    "ast_hash": "34438ee608163be73226f7b6e9153ca4",
+    "mtime": 1795437071.7875342,
+    "seen": 1795437226.3607352,
+    "ast_hash": "e6e21087f374d102cf96aac7b8bfcb50",
     "semantic_hash": ""
   },
   "public/brand-kit/presentation/accounting-final-spec.json": {
@@ -480,21 +480,21 @@
     "semantic_hash": "0876fc394584d0749bad0a6b848e3989"
   },
   "src/components/brand-mark.tsx": {
-    "mtime": 1795401568.3378036,
-    "seen": 1795403467.080489,
-    "ast_hash": "6afb382443acdbb610b0401d6eca279f",
+    "mtime": 1795435378.380327,
+    "seen": 1795437226.3916154,
+    "ast_hash": "fde8e365b79d6f9b299861f660611644",
     "semantic_hash": ""
   },
   "src/components/loading-screen.tsx": {
-    "mtime": 1795402553.5689783,
-    "seen": 1795403467.0805118,
-    "ast_hash": "135f06a56fabd648233b46efe00cdd57",
+    "mtime": 1795435378.3823643,
+    "seen": 1795437226.3916326,
+    "ast_hash": "54cfb383e864dc6eee287c0978aab454",
     "semantic_hash": ""
   },
   "src/components/period-tabs.tsx": {
-    "mtime": 1795403377.9817605,
-    "seen": 1795403467.080534,
-    "ast_hash": "38681e197dc31b52e9f098d808916c8f",
+    "mtime": 1795403963.8706312,
+    "seen": 1795421168.4442978,
+    "ast_hash": "cca53ea4274238bfcdded3b54da82e35",
     "semantic_hash": ""
   },
   "src/hooks/use-prefers-reduced-motion.ts": {
@@ -516,21 +516,21 @@
     "semantic_hash": ""
   },
   "src/components/accounting-illustration.tsx": {
-    "mtime": 1795402350.8422909,
-    "seen": 1795403467.0804772,
-    "ast_hash": "ddac68a8d3680aa747d1eb025f53a3f7",
+    "mtime": 1795435737.2569218,
+    "seen": 1795437226.3916078,
+    "ast_hash": "9f16783e91a0e7f588cdcef6b3035a5b",
     "semantic_hash": ""
   },
   "src/components/cost-analytics.tsx": {
-    "mtime": 1795401556.6658278,
-    "seen": 1795403467.080495,
-    "ast_hash": "19d2c9099f4d2e722ce8db4f93bfb233",
+    "mtime": 1795435722.0242991,
+    "seen": 1795437226.391621,
+    "ast_hash": "e281b842461cdea0fbb884b095052898",
     "semantic_hash": ""
   },
   "src/components/cost-charts.tsx": {
-    "mtime": 1795401537.782164,
-    "seen": 1795403467.0805044,
-    "ast_hash": "0f320e3b55db19e92a856015662f7014",
+    "mtime": 1795435378.3881168,
+    "seen": 1795437226.3916273,
+    "ast_hash": "b631be38f582403fe0dcf3541b62b276",
     "semantic_hash": ""
   },
   "src/lib/cost-demo.test.ts": {
@@ -546,9 +546,9 @@
     "semantic_hash": ""
   },
   "tests/workspace.spec.ts": {
-    "mtime": 1795403377.9650106,
-    "seen": 1795403467.1056871,
-    "ast_hash": "d3b38b18b3530ec7629f1045a3639406",
+    "mtime": 1795437117.7714682,
+    "seen": 1795437226.4430132,
+    "ast_hash": "16cc4597643e128459481eacf1a1aae8",
     "semantic_hash": ""
   },
   ".agents/skills/impeccable/SKILL.md": {
@@ -972,15 +972,15 @@
     "semantic_hash": ""
   },
   ".impeccable/surfaces/dashboard.md": {
-    "mtime": 1795358590.3403535,
-    "seen": 1795403467.107089,
-    "ast_hash": "8def837a9f137482aff085f9edb5be1c",
+    "mtime": 1795437071.7910433,
+    "seen": 1795437226.50857,
+    "ast_hash": "d7f4e2673c5766d17b1dd562d8474b0d",
     "semantic_hash": ""
   },
   ".impeccable/surfaces/src-app-page-tsx.md": {
-    "mtime": 1795401749.5936253,
-    "seen": 1795403467.1070924,
-    "ast_hash": "c8d10149127e1759603846efde4905e2",
+    "mtime": 1795437071.7899582,
+    "seen": 1795437226.5085762,
+    "ast_hash": "ea4d3371e8176dd52d5fceccd532caa1",
     "semantic_hash": ""
   },
   "AGENTS.md": {
@@ -990,21 +990,21 @@
     "semantic_hash": ""
   },
   "DESIGN.md": {
-    "mtime": 1795401887.7006397,
-    "seen": 1795403467.1071,
-    "ast_hash": "203275851e9f945af420b5548da16042",
+    "mtime": 1795437071.7840939,
+    "seen": 1795437226.5093417,
+    "ast_hash": "1a1c84268fb0038cfe9e4ceba1a71d48",
     "semantic_hash": ""
   },
   "PRODUCT.md": {
-    "mtime": 1795401568.1962395,
-    "seen": 1795403467.1071036,
-    "ast_hash": "0f83f5cfb10092ecd181738359fd4e7a",
+    "mtime": 1795437071.7965317,
+    "seen": 1795437226.509347,
+    "ast_hash": "35aab1addf4df788bf98e62b3327ff1d",
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1795402941.4047348,
-    "seen": 1795403467.1071074,
-    "ast_hash": "8d43363ed295ea3907e28f55605cdd68",
+    "mtime": 1795437071.7950456,
+    "seen": 1795437226.5093517,
+    "ast_hash": "f5d66e8445e0db9dacf25562a540b8cf",
     "semantic_hash": ""
   },
   "public/brand-kit/README.md": {
@@ -10176,9 +10176,495 @@
     "semantic_hash": ""
   },
   "src/app/icon.svg": {
-    "mtime": 1795401576.6189737,
-    "seen": 1795403467.1151743,
-    "ast_hash": "35db2244610063284842b03c43cc5aac",
+    "mtime": 1795435378.3901074,
+    "seen": 1795437228.4331656,
+    "ast_hash": "ca43941f49a9004d3d5d81c9c9bcc8c3",
+    "semantic_hash": ""
+  },
+  "src/app/loading.tsx": {
+    "mtime": 1795420427.90309,
+    "seen": 1795421168.441903,
+    "ast_hash": "2aa474b3eda53ee79a7ccb174f3a9c9f",
+    "semantic_hash": ""
+  },
+  "src/app/login/loading.tsx": {
+    "mtime": 1795435378.3842072,
+    "seen": 1795437226.3898811,
+    "ast_hash": "9ba9ec33b0c88987b0a98ffe4facb1d9",
+    "semantic_hash": ""
+  },
+  "src/components/ui/aceternity-surface.tsx": {
+    "mtime": 1795404685.1949844,
+    "seen": 1795421168.4443018,
+    "ast_hash": "30e15664d5ada8f77cb0a595ba8edcc9",
+    "semantic_hash": ""
+  },
+  "src/components/ui/alert.tsx": {
+    "mtime": 1795404513.7886271,
+    "seen": 1795421168.4443061,
+    "ast_hash": "c39eec9a84826525aa54a578ee45f736",
+    "semantic_hash": ""
+  },
+  "src/components/ui/animated-tabs.tsx": {
+    "mtime": 1795405151.213522,
+    "seen": 1795421168.44431,
+    "ast_hash": "68d6cdafe701ff74ccd3405d307c0053",
+    "semantic_hash": ""
+  },
+  "src/components/ui/avatar.tsx": {
+    "mtime": 1795404513.792004,
+    "seen": 1795421168.4443147,
+    "ast_hash": "e4b9030b901e9c29fa0ec24153e0841e",
+    "semantic_hash": ""
+  },
+  "src/components/ui/badge.tsx": {
+    "mtime": 1795404513.6995964,
+    "seen": 1795421168.4443188,
+    "ast_hash": "71794ece444db34198d83906b6982f95",
+    "semantic_hash": ""
+  },
+  "src/components/ui/card.tsx": {
+    "mtime": 1795404685.4308603,
+    "seen": 1795421168.4443297,
+    "ast_hash": "529b9112ba8ef98e952e324ba7b157bc",
+    "semantic_hash": ""
+  },
+  "src/components/ui/collapsible.tsx": {
+    "mtime": 1795404513.786523,
+    "seen": 1795421168.444336,
+    "ast_hash": "c92904eed4f26917ab3d6e34566cff97",
+    "semantic_hash": ""
+  },
+  "src/components/ui/dialog.tsx": {
+    "mtime": 1795433908.5477667,
+    "seen": 1795437226.4026706,
+    "ast_hash": "caa5f60776dc895438038322b757f654",
+    "semantic_hash": ""
+  },
+  "src/components/ui/file-upload.tsx": {
+    "mtime": 1795433908.5477667,
+    "seen": 1795437226.4026785,
+    "ast_hash": "48f2f4e0aa2fd4b9e1456572c7d3c8eb",
+    "semantic_hash": ""
+  },
+  "src/components/ui/input.tsx": {
+    "mtime": 1795403963.7455418,
+    "seen": 1795421168.4443495,
+    "ast_hash": "42fef48b059776412ea7092297e024ed",
+    "semantic_hash": ""
+  },
+  "src/components/ui/label.tsx": {
+    "mtime": 1795404513.7849371,
+    "seen": 1795421168.4443543,
+    "ast_hash": "28249f2bd8ff71178349b3aeef571e5b",
+    "semantic_hash": ""
+  },
+  "src/components/ui/native-select.tsx": {
+    "mtime": 1795434100.508675,
+    "seen": 1795437226.4062233,
+    "ast_hash": "a1f95063b5cdd25a827a781cf314c66d",
+    "semantic_hash": ""
+  },
+  "src/components/ui/progress.tsx": {
+    "mtime": 1795404575.5353312,
+    "seen": 1795421168.4443636,
+    "ast_hash": "40036a5c5d86e05ef8937d37daa4be1e",
+    "semantic_hash": ""
+  },
+  "src/components/ui/sheet.tsx": {
+    "mtime": 1795433908.5547018,
+    "seen": 1795437226.4071314,
+    "ast_hash": "3a4b901b667b81bcf53053f450eefd83",
+    "semantic_hash": ""
+  },
+  "src/components/ui/sidebar.tsx": {
+    "mtime": 1795432090.42721,
+    "seen": 1795432710.7619948,
+    "ast_hash": "7d1a7c853dcfc7aa02c6de9171b70198",
+    "semantic_hash": ""
+  },
+  "src/components/ui/skeleton.tsx": {
+    "mtime": 1795404513.7935865,
+    "seen": 1795421168.4443772,
+    "ast_hash": "307efae3f97a41a7bed790738cfad9b0",
+    "semantic_hash": ""
+  },
+  "src/components/ui/stateful-button.tsx": {
+    "mtime": 1795433908.5547018,
+    "seen": 1795437226.4098914,
+    "ast_hash": "46e7535e6adaa5eb7e0dc020dfa92c39",
+    "semantic_hash": ""
+  },
+  "src/components/ui/table.tsx": {
+    "mtime": 1795404513.4399123,
+    "seen": 1795421168.4443862,
+    "ast_hash": "2c99eb42af0c6b704474e6c6bb428c9f",
+    "semantic_hash": ""
+  },
+  "src/components/ui/tabs.tsx": {
+    "mtime": 1795405142.8841097,
+    "seen": 1795421168.444391,
+    "ast_hash": "3a96f9cf571610c25dc954491d412729",
+    "semantic_hash": ""
+  },
+  "src/components/workspace-banner.tsx": {
+    "mtime": 1795433908.5338874,
+    "seen": 1795437226.4121122,
+    "ast_hash": "721ca889eb1c472fd5e060f1e89a0236",
+    "semantic_hash": ""
+  },
+  "src/components/workspace-toast.tsx": {
+    "mtime": 1795433908.5408363,
+    "seen": 1795437226.4121199,
+    "ast_hash": "7ecb4345bd91a8628629ca0e2afc0d1c",
+    "semantic_hash": ""
+  },
+  "src/components/studio-page.tsx": {
+    "mtime": 1795435722.019264,
+    "seen": 1795437226.3932817,
+    "ast_hash": "1346f9466fc1a71f63c3a2047b88b181",
+    "semantic_hash": ""
+  },
+  "public/ledger/asset.json": {
+    "mtime": 1795435319.9490423,
+    "seen": 1795437226.372871,
+    "ast_hash": "4b4dbde6538940ecdbf540131d811d86",
+    "semantic_hash": ""
+  },
+  "public/ledger/import.json": {
+    "mtime": 1795435319.9459836,
+    "seen": 1795437226.3728774,
+    "ast_hash": "b8a3db10473dba1dcec4ce60b4ca0ce8",
+    "semantic_hash": ""
+  },
+  "public/ledger/ledger.json": {
+    "mtime": 1795435319.9419806,
+    "seen": 1795437226.3728826,
+    "ast_hash": "6bfb7371325dc97c7712b8ddd06b6290",
+    "semantic_hash": ""
+  },
+  "public/ledger/period.json": {
+    "mtime": 1795435319.9557612,
+    "seen": 1795437226.3728876,
+    "ast_hash": "13b401122278333a9356d335322bd344",
+    "semantic_hash": ""
+  },
+  "public/ledger/tasks.json": {
+    "mtime": 1795435319.952041,
+    "seen": 1795437226.3728917,
+    "ast_hash": "75a3164124b8d708f40677c1926f4c5c",
+    "semantic_hash": ""
+  },
+  "public/lordicon/add.json": {
+    "mtime": 1795433856.7297964,
+    "seen": 1795437226.3751109,
+    "ast_hash": "824352da60095c420ee436d950aeabcf",
+    "semantic_hash": ""
+  },
+  "public/lordicon/analytics.json": {
+    "mtime": 1795433856.7297964,
+    "seen": 1795437226.3751185,
+    "ast_hash": "5c0713ccebf70bf65731ead0a3374c41",
+    "semantic_hash": ""
+  },
+  "public/lordicon/arrow.json": {
+    "mtime": 1795433856.6934524,
+    "seen": 1795437226.375123,
+    "ast_hash": "8e21e71c9772275b8d9c7b28c313d756",
+    "semantic_hash": ""
+  },
+  "public/lordicon/asset.json": {
+    "mtime": 1795433856.7197528,
+    "seen": 1795437226.375127,
+    "ast_hash": "eb6447b3b19f3482d0012ffb1ac76875",
+    "semantic_hash": ""
+  },
+  "public/lordicon/bell.json": {
+    "mtime": 1795433856.6934524,
+    "seen": 1795437226.3751304,
+    "ast_hash": "54f8afe65acc74b5f488b73b65756448",
+    "semantic_hash": ""
+  },
+  "public/lordicon/chevron-down.json": {
+    "mtime": 1795433856.7177472,
+    "seen": 1795437226.3751354,
+    "ast_hash": "7d0d3b0d64835e4114920bf29c4a0829",
+    "semantic_hash": ""
+  },
+  "public/lordicon/chevron-left.json": {
+    "mtime": 1795433856.7157428,
+    "seen": 1795437226.3751395,
+    "ast_hash": "ead78ea485b859702a03f0e69bfe210d",
+    "semantic_hash": ""
+  },
+  "public/lordicon/chevron-right.json": {
+    "mtime": 1795433856.7086256,
+    "seen": 1795437226.3751438,
+    "ast_hash": "6a4fdf4e0e105853cfa177c00c3725c5",
+    "semantic_hash": ""
+  },
+  "public/lordicon/close.json": {
+    "mtime": 1795433856.7281675,
+    "seen": 1795437226.3751478,
+    "ast_hash": "7c1eb1871ee069bdd43331861a176cc8",
+    "semantic_hash": ""
+  },
+  "public/lordicon/dashboard.json": {
+    "mtime": 1795433856.7233963,
+    "seen": 1795437226.375152,
+    "ast_hash": "948d51d6a5e49414184797ef608fc5c4",
+    "semantic_hash": ""
+  },
+  "public/lordicon/download.json": {
+    "mtime": 1795433856.6934524,
+    "seen": 1795437226.3751554,
+    "ast_hash": "d0f6417f05a055893472ecde1cc48f5b",
+    "semantic_hash": ""
+  },
+  "public/lordicon/file.json": {
+    "mtime": 1795433856.7453308,
+    "seen": 1795437226.3751597,
+    "ast_hash": "0fc6c9fe70c086274ed83c15730ef45e",
+    "semantic_hash": ""
+  },
+  "public/lordicon/filter.json": {
+    "mtime": 1795433856.69096,
+    "seen": 1795437226.3751643,
+    "ast_hash": "9ba1d23d42ca62aba93bc8be89b8b72e",
+    "semantic_hash": ""
+  },
+  "public/lordicon/info.json": {
+    "mtime": 1795433856.725391,
+    "seen": 1795437226.375169,
+    "ast_hash": "2f903f923a64154a4e5d3880e454739e",
+    "semantic_hash": ""
+  },
+  "public/lordicon/menu.json": {
+    "mtime": 1795433856.7297964,
+    "seen": 1795437226.3751726,
+    "ast_hash": "0629275a22790b83f55b3311db531e23",
+    "semantic_hash": ""
+  },
+  "public/lordicon/people.json": {
+    "mtime": 1795433856.7086256,
+    "seen": 1795437226.3751762,
+    "ast_hash": "07bf8c1cc56f87bf5add784758dc94c5",
+    "semantic_hash": ""
+  },
+  "public/lordicon/search.json": {
+    "mtime": 1795433856.6934524,
+    "seen": 1795437226.3751798,
+    "ast_hash": "067725d5d62dd894b65221cdaaf24f93",
+    "semantic_hash": ""
+  },
+  "public/lordicon/settings.json": {
+    "mtime": 1795433856.7297964,
+    "seen": 1795437226.375184,
+    "ast_hash": "470461a72f08b4b12fc54e198c6f5759",
+    "semantic_hash": ""
+  },
+  "public/lordicon/spinner.json": {
+    "mtime": 1795433856.7297964,
+    "seen": 1795437226.3751888,
+    "ast_hash": "b451a140f92cfdac030b0457b4959a5e",
+    "semantic_hash": ""
+  },
+  "public/lordicon/success.json": {
+    "mtime": 1795433856.6934524,
+    "seen": 1795437226.3751929,
+    "ast_hash": "854e61712d0ebcc58e13dc73fb40c125",
+    "semantic_hash": ""
+  },
+  "public/lordicon/tasks.json": {
+    "mtime": 1795433856.7297964,
+    "seen": 1795437226.3751962,
+    "ast_hash": "b2781e9d988385904a133d984661ab32",
+    "semantic_hash": ""
+  },
+  "public/lordicon/upload.json": {
+    "mtime": 1795433856.6934524,
+    "seen": 1795437226.3751996,
+    "ast_hash": "2178f75e5ad86eac91426bb6273a3a13",
+    "semantic_hash": ""
+  },
+  "public/lordicon/warning.json": {
+    "mtime": 1795433856.6889572,
+    "seen": 1795437226.3752031,
+    "ast_hash": "8d713b95cb4f677e714584448f4254f7",
+    "semantic_hash": ""
+  },
+  "src/components/lordicon-runtime.tsx": {
+    "mtime": 1795433879.7946668,
+    "seen": 1795437226.3916383,
+    "ast_hash": "6935f678b2c7c58dda226d31c3a6708e",
+    "semantic_hash": ""
+  },
+  "src/components/ui/lord-icon.tsx": {
+    "mtime": 1795435378.386206,
+    "seen": 1795437226.4062133,
+    "ast_hash": "cdf2e323c33a85839024cbf0c05aea4b",
+    "semantic_hash": ""
+  },
+  "public/ledger/icon-180.png": {
+    "mtime": 1795437124.869,
+    "seen": 1795437228.430554,
+    "ast_hash": "41cbfd91b0403403d7d7bf1fcac52b40",
+    "semantic_hash": ""
+  },
+  "public/ledger/icon-192.png": {
+    "mtime": 1795437124.907,
+    "seen": 1795437228.4305618,
+    "ast_hash": "519bc1c9991b7fef164cd898bb1c4a2e",
+    "semantic_hash": ""
+  },
+  "public/ledger/icon-512.png": {
+    "mtime": 1795437124.95,
+    "seen": 1795437228.4305665,
+    "ast_hash": "ee1fde22cf854e3efc9365008d7c7428",
+    "semantic_hash": ""
+  },
+  "public/lordicon/add.svg": {
+    "mtime": 1795433856.7453308,
+    "seen": 1795437228.4305713,
+    "ast_hash": "fa50d7baf926f72b37c0066694d6d78b",
+    "semantic_hash": ""
+  },
+  "public/lordicon/analytics.svg": {
+    "mtime": 1795433856.7297964,
+    "seen": 1795437228.4305775,
+    "ast_hash": "5eb408e765ffaf233ac423eaa2f751cc",
+    "semantic_hash": ""
+  },
+  "public/lordicon/arrow.svg": {
+    "mtime": 1795433856.7086256,
+    "seen": 1795437228.4305818,
+    "ast_hash": "f43464737d63906ffb9066af190df89a",
+    "semantic_hash": ""
+  },
+  "public/lordicon/asset.svg": {
+    "mtime": 1795433856.7212272,
+    "seen": 1795437228.4305859,
+    "ast_hash": "a360d62bc5994ad4a9fdc88c708b1977",
+    "semantic_hash": ""
+  },
+  "public/lordicon/bell.svg": {
+    "mtime": 1795433856.6934524,
+    "seen": 1795437228.4305897,
+    "ast_hash": "7d9b5e606cb26cb296961e0e838dcbe6",
+    "semantic_hash": ""
+  },
+  "public/lordicon/chevron-down.svg": {
+    "mtime": 1795433856.7187426,
+    "seen": 1795437228.4305933,
+    "ast_hash": "31590d008cec82baaf079a1aa845729f",
+    "semantic_hash": ""
+  },
+  "public/lordicon/chevron-left.svg": {
+    "mtime": 1795433856.7167404,
+    "seen": 1795437228.4305987,
+    "ast_hash": "e908dbeda509f9719e82312abe4de00b",
+    "semantic_hash": ""
+  },
+  "public/lordicon/chevron-right.svg": {
+    "mtime": 1795433856.7086256,
+    "seen": 1795437228.4306026,
+    "ast_hash": "3099c65da6b23869d162a395d88f2ec7",
+    "semantic_hash": ""
+  },
+  "public/lordicon/close.svg": {
+    "mtime": 1795433856.7297964,
+    "seen": 1795437228.4306073,
+    "ast_hash": "ec45acb4851f57bd54cab9c0cf97d81c",
+    "semantic_hash": ""
+  },
+  "public/lordicon/coins.svg": {
+    "mtime": 1795434039.7263453,
+    "seen": 1795437228.4306116,
+    "ast_hash": "216488f0cea6f39c337cebfb4525182e",
+    "semantic_hash": ""
+  },
+  "public/lordicon/dashboard.svg": {
+    "mtime": 1795433856.7243927,
+    "seen": 1795437228.4306161,
+    "ast_hash": "03535b45ad1054d67f87ce0a3016b21c",
+    "semantic_hash": ""
+  },
+  "public/lordicon/download.svg": {
+    "mtime": 1795433856.6934524,
+    "seen": 1795437228.4306202,
+    "ast_hash": "80127afafcc6bfe26a7e3cbf6fc72d0c",
+    "semantic_hash": ""
+  },
+  "public/lordicon/file.svg": {
+    "mtime": 1795433856.7453308,
+    "seen": 1795437228.430625,
+    "ast_hash": "5443f1b20bd2e9907889503a27eca46c",
+    "semantic_hash": ""
+  },
+  "public/lordicon/filter.svg": {
+    "mtime": 1795433856.6919608,
+    "seen": 1795437228.4306297,
+    "ast_hash": "4c8d5f9c163335a98adf7af8f7ec7e6d",
+    "semantic_hash": ""
+  },
+  "public/lordicon/info.svg": {
+    "mtime": 1795433856.7267911,
+    "seen": 1795437228.4306338,
+    "ast_hash": "6d88a07ffbb8d0dc095082c9b7c01c3d",
+    "semantic_hash": ""
+  },
+  "public/lordicon/menu.svg": {
+    "mtime": 1795433856.7297964,
+    "seen": 1795437228.4306378,
+    "ast_hash": "6827ecc1a44dfad152d57c57ccc9b36b",
+    "semantic_hash": ""
+  },
+  "public/lordicon/people.svg": {
+    "mtime": 1795433856.7147384,
+    "seen": 1795437228.430642,
+    "ast_hash": "3d0b9b6252170bc18dc2ce3bb322b77b",
+    "semantic_hash": ""
+  },
+  "public/lordicon/search.svg": {
+    "mtime": 1795433856.6934524,
+    "seen": 1795437228.4306471,
+    "ast_hash": "c9f41ff07172d648e3406d14c6b511a7",
+    "semantic_hash": ""
+  },
+  "public/lordicon/settings.svg": {
+    "mtime": 1795433856.7297964,
+    "seen": 1795437228.4306524,
+    "ast_hash": "496d271e5f4988d0107572110cf6f96d",
+    "semantic_hash": ""
+  },
+  "public/lordicon/spinner.svg": {
+    "mtime": 1795433856.7297964,
+    "seen": 1795437228.4306588,
+    "ast_hash": "c039a94b4c11ee5c59d51115571998d3",
+    "semantic_hash": ""
+  },
+  "public/lordicon/success.svg": {
+    "mtime": 1795433856.6934524,
+    "seen": 1795437228.4306643,
+    "ast_hash": "69f41124c7b389bba9bcd6ba4baefa25",
+    "semantic_hash": ""
+  },
+  "public/lordicon/tasks.svg": {
+    "mtime": 1795433856.7297964,
+    "seen": 1795437228.4306686,
+    "ast_hash": "b215c5cb10e9efa31cba183a4ac9570f",
+    "semantic_hash": ""
+  },
+  "public/lordicon/upload.svg": {
+    "mtime": 1795433856.6934524,
+    "seen": 1795437228.430674,
+    "ast_hash": "1fa50a707ec687d1a87b3903f135a1e4",
+    "semantic_hash": ""
+  },
+  "public/lordicon/warning.svg": {
+    "mtime": 1795433856.6899614,
+    "seen": 1795437228.4306803,
+    "ast_hash": "2ca4f82351564c4d4713338fe789c923",
     "semantic_hash": ""
   }
 }
