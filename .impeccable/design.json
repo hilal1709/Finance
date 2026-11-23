@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "title": "Design System: Digital Accounting",
+  "extensions": {
+    "shadows": [
+      { "name": "dialog", "value": "0 22px 66px rgba(41,39,48,.22)", "purpose": "Separate the dialog from the dimmed work area." }
+    ],
+    "motion": [
+      { "name": "route-loading", "value": "GSAP animates the Trace Loop and the loading track while the route waits.", "purpose": "Show the current loading state." },
+      { "name": "toast-entry", "value": "Anime.js animates entry for 230ms with an 8px offset.", "purpose": "Bring attention to feedback without shifting content." },
+      { "name": "source-reveal", "value": "AOS triggers one 300ms animation on the source snapshot panel.", "purpose": "Introduce source context when the panel enters the viewport." },
+      { "name": "notice-navigation", "value": "Manual Swiper controls at 240ms and zero duration for reduced motion.", "purpose": "Keep notices user controlled." }
+    ],
+    "breakpoints": [
+      { "name": "stacked-task-rows", "value": "760px" },
+      { "name": "workspace-drawer", "value": "900px" }
+    ]
+  },
+  "components": [],
+  "narrative": {
+    "northStar": "A calm, dependable accounting operations console.",
+    "overview": "Ledger modern centers the Accounting team's daily queue. A graphite sidebar frames a pale canvas, aubergine marks primary actions, and teal distinguishes supporting financial context.",
+    "keyCharacteristics": ["Queue first", "Clear source trace", "Graphite navigation, aubergine primary, teal chart secondary", "Compact operational density"],
+    "rules": [
+      { "name": "Queue first", "body": "Keep the daily work queue ahead of supporting metrics.", "section": "layout" },
+      { "name": "Graphite & Aubergine", "body": "Use graphite (`#292730`, `--sidebar`) for persistent navigation and aubergine (`#705080`, `--primary`) for primary actions and focus. Keep the canvas pale (`#F7F5F8`, `--background`), surfaces white (`#FFFFFF`, `--card`), and borders quiet (`#DFD8E3`, `--border`). Teal (`#347C88`, `--chart-1`, aliased by `--teal`) is the secondary chart accent, not semantic success; aubergine is also available as `--chart-2`. The soft teal token follows `--accent` (`#E7F0F2`). These documented colors follow the normative `:root` tokens in `src/app/globals.css`, not legacy hardcoded component colors. Preserve semantic success, warning, and error treatments: green for actual successful, validated, or completed states, amber for due attention, and red for errors. A green check is only for an actual successful, validated, or completed state.", "section": "colors" },
+      { "name": "Accessible bar charts", "body": "Use lazy-loaded Chart.js bar charts through react-chartjs-2, with accessible expandable data tables so values are available without relying on the canvas, color, or hover.", "section": "components" },
+      { "name": "Actual versus baseline", "body": "Actual versus baseline bar charts use aubergine for actual and teal for baseline, with explicit series labels and monthly/YTD modes.", "section": "components" },
+      { "name": "Signed contributors", "body": "Contributor charts use signed horizontal bars around zero to distinguish positive and negative contributions; preserve signs and values in the expandable data table.", "section": "components" },
+      { "name": "Capacity is progress", "body": "Capacity tracks are progress indicators, not Chart.js charts.", "section": "components" },
+      { "name": "Source visible", "body": "Make provenance and simulation status visible.", "section": "components" },
+      { "name": "Respect motion preference", "body": "Disable nonessential motion when reduced motion is requested.", "section": "components" }
+    ],
+    "dos": ["Keep the work queue as the first dashboard module.", "Show data period and simulation status."],
+    "donts": ["Use sparkle motifs or decorative icon grids.", "Use checkmarks outside successful, validated, or completed states."]
+  }
+}

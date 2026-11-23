@@ -1,0 +1,36 @@
+{
+  "brand": "Accounting",
+  "tagline": "Digital accounting operations",
+  "brief": "An internal Accounting workspace that connects team tasks and workload, SAP asset-to-equipment mapping, cost analytics, and an auditable import trail.",
+  "adjectives": ["precise", "accountable", "calm", "capable"],
+  "criteria": "A single memorable mark that works in monochrome, remains clear at browser-tab size, and feels at home in a premium enterprise workspace.",
+  "industry": "accounting",
+  "mockups": ["website", "app-icon", "favicon-tab", "business-card", "social", "signage"],
+  "nav": ["Workspace", "Assets", "Analytics"],
+  "brand_color": "#17234D",
+  "tile_color": "#17234D",
+  "greyscale": false,
+  "final": true,
+  "designer": "Accounting Digital Operations",
+  "round": 2,
+  "concepts": [
+    {
+      "name": "Trace Loop",
+      "symbol": "../source/accounting-symbol-color.svg",
+      "lockup": "../source/accounting-horizontal-color.svg",
+      "stacked": "../source/accounting-stacked-color.svg",
+      "avatar": "../digital/accounting-symbol-small-app-icon.svg",
+      "idea": "A clear loop leaves a visible point of provenance.",
+      "rationale": [
+        "The open loop signals traceable work without drawing a literal ledger.",
+        "The separate point gives the mark a distinct entry cue at small sizes.",
+        "Indigo and Teal match the approved workspace direction; a mint point preserves contrast in reverse."
+      ]
+    }
+  ],
+  "recommendation": "Trace Loop is the selected direction. The two-colour master is the default on light backgrounds; use the reversed lockup on Midnight Indigo.",
+  "next_steps": [
+    "Use the horizontal lockup in web headers and the symbol-only cut in compact contexts.",
+    "Confirm print colour on a physical proof before production."
+  ]
+}

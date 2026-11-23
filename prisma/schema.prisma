@@ -1,0 +1,235 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  PIC
+}
+
+enum TaskStatus {
+  NEW
+  ASSIGNED
+  IN_PROGRESS
+  WAITING
+  IN_REVIEW
+  COMPLETED
+}
+
+enum TaskPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum ImportType {
+  ASSETS
+  EQUIPMENT
+  FINANCIAL_LINES
+}
+
+enum ImportStatus {
+  PREVIEW
+  COMPLETED
+  FAILED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String
+  role          Role      @default(PIC)
+  section       String    @default("Section of Financial Accounting")
+  capacityHours Int       @default(40)
+  active        Boolean   @default(true)
+  accounts      Account[]
+  sessions      Session[]
+  assignedTasks Task[]    @relation("TaskAssignee")
+  createdTasks  Task[]    @relation("TaskCreator")
+  events        TaskEvent[]
+  imports       ImportBatch[]
+  approvedLinks AssetEquipmentMapping[] @relation("MappingApprover")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([role, section, active])
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([sessionToken])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Task {
+  id             String       @id @default(cuid())
+  title          String
+  description    String?      @db.Text
+  category       String       @default("Rutin")
+  priority       TaskPriority @default(NORMAL)
+  status         TaskStatus   @default(NEW)
+  deadline       DateTime?
+  estimatedHours Decimal      @default(1) @db.Decimal(7, 2)
+  progress       Int          @default(0)
+  blockerNote    String?      @db.Text
+  evidenceUrl    String?
+  assigneeId     String?
+  createdById    String
+  assignee       User?        @relation("TaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  createdBy      User         @relation("TaskCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  events         TaskEvent[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([status, deadline])
+  @@index([assigneeId, status])
+  @@index([createdById, createdAt])
+}
+
+model TaskEvent {
+  id                  String     @id @default(cuid())
+  taskId              String
+  actorId             String
+  fromStatus          TaskStatus?
+  toStatus            TaskStatus?
+  fromAssigneeId      String?
+  toAssigneeId        String?
+  note                String?    @db.Text
+  task                Task       @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  actor               User       @relation(fields: [actorId], references: [id], onDelete: Restrict)
+  createdAt           DateTime   @default(now())
+
+  @@index([taskId, createdAt])
+}
+
+model Asset {
+  id              String                   @id @default(cuid())
+  assetNumber     String
+  subNumber       String                   @default("0000")
+  name            String
+  bookValue       Decimal?                 @db.Decimal(18, 2)
+  acquisitionDate DateTime?
+  location        String?
+  costCenter      String?
+  active          Boolean                  @default(true)
+  mappings        AssetEquipmentMapping[]
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime                 @updatedAt
+
+  @@unique([assetNumber, subNumber])
+  @@index([name])
+  @@index([location, costCenter])
+}
+
+model Equipment {
+  id          String                   @id @default(cuid())
+  equipmentId String                   @unique
+  name        String
+  type        String?
+  unit        String?
+  location    String?
+  owner       String?
+  status      String                   @default("Aktif")
+  mappings    AssetEquipmentMapping[]
+  createdAt   DateTime                 @default(now())
+  updatedAt   DateTime                 @updatedAt
+
+  @@index([name, location])
+}
+
+model AssetEquipmentMapping {
+  id            String     @id @default(cuid())
+  assetId       String
+  equipmentId   String
+  effectiveFrom DateTime   @default(now())
+  effectiveTo   DateTime?
+  note          String?    @db.Text
+  approvedById  String?
+  asset         Asset      @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  equipment     Equipment  @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  approvedBy    User?      @relation("MappingApprover", fields: [approvedById], references: [id], onDelete: SetNull)
+  createdAt     DateTime   @default(now())
+
+  @@unique([assetId, equipmentId, effectiveFrom])
+  @@index([assetId, effectiveTo])
+  @@index([equipmentId, effectiveTo])
+}
+
+model ImportBatch {
+  id          String       @id @default(cuid())
+  type        ImportType
+  status      ImportStatus @default(PREVIEW)
+  fileName    String
+  rowCount    Int          @default(0)
+  validCount  Int          @default(0)
+  errorCount  Int          @default(0)
+  warnings    Json?
+  importedById String
+  importedBy  User         @relation(fields: [importedById], references: [id], onDelete: Restrict)
+  financialLines FinancialLine[]
+  createdAt   DateTime     @default(now())
+  completedAt DateTime?
+
+  @@index([type, status, createdAt])
+}
+
+model FinancialLine {
+  id             String      @id @default(cuid())
+  company        String?
+  period         String
+  classification String?
+  account        String?
+  accountName    String?
+  costCenter     String?
+  plant          String?
+  documentNo     String?
+  lineItem       String?
+  description    String?
+  amount          Decimal     @db.Decimal(18, 2)
+  currency        String      @default("IDR")
+  importBatchId   String
+  importBatch     ImportBatch @relation(fields: [importBatchId], references: [id], onDelete: Cascade)
+  createdAt       DateTime    @default(now())
+
+  @@index([period, classification])
+  @@index([account, costCenter, plant])
+  @@index([documentNo, lineItem])
+}
